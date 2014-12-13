@@ -10,5 +10,5 @@ setup(
     packages=['senial_solid'],
     py_modules=['lanzador'],
     entry_points = {'console_scripts' :
-                    'lanzador = lanzador.Lanzador.ejecutar'}
+                    'lanzador = lanzador:Lanzador.ejecutar'}
 )
