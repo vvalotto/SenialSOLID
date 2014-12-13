@@ -3,7 +3,7 @@
 Programa lanzador del ejemplo
 """
 
-import lector_senial
+from senial_solid.lector_senial import LectorSenial
 
 
 class Lanzador():
@@ -19,7 +19,7 @@ class Lanzador():
         Ejecucion del programa lanzador
         :return
         """
-        senial = lector_senial.LectorSenial(10)
+        senial = LectorSenial(10)
 
         print("Iniciando")
         print("Paso 1")
