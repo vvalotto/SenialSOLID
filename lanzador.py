@@ -4,9 +4,10 @@ Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
 entre diferentes clases.
 """
 import os
-from senial_solid.adquisidor import *
-from senial_solid.procesador import *
-from senial_solid.visualizador import *
+
+from adquisidor.adquisidor import *
+from procesador.procesador import *
+from visualizador.visualizador import *
 
 
 class Lanzador():
