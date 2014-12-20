@@ -1,1 +1,2 @@
-Demostración de la aplicación de principios de Diseño SOLID en Python
+Demostración de la aplicación de principios de Diseño SOLID en Python.
+Se aplica el SRP, donde se dividen los modulos en diferentes paquetes.
