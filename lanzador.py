@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3.4
 """
 Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
 entre diferentes clases.
