@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3.4
 """
 Programa lanzador del ejemplo
 """
