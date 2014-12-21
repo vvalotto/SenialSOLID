@@ -4,6 +4,10 @@ Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
 entre diferentes clases.
 """
 import os
+import adquisidor
+import procesador
+import visualizador
+import modelo
 
 from adquisidor.adquisidor import *
 from procesador.procesador import *
@@ -28,10 +32,22 @@ class Lanzador():
         return
 
     @staticmethod
+    def informar_versiones():
+        os.system("clear")
+        print("Versiones de los componenetes")
+        print("adquisidor: " + adquisidor.__version__)
+        print("procesador: " + procesador.__version__)
+        print("visualizador: " + visualizador.__version__)
+        print("modelo: " + modelo.__version__)
+
+    @staticmethod
     def ejecutar():
         """
         Se instancian las clases que participan del procesamiento
         """
+        Lanzador.informar_versiones()
+        Lanzador.tecla()
+
         a = Adquisidor(5)
         p = Procesador()
         v = Visualizador()
