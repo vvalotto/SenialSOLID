@@ -5,7 +5,7 @@ funciones de procesmiento de datos sin que impacte en los anteriores programas
 o que cambiando solo las clases de alto nivel que pueda "armar" la solucion
 """
 from abc import ABCMeta, abstractmethod
-from Modelo.senial import *
+from modelo.senial import *
 
 
 class BaseProcesador(metaclass=ABCMeta):
@@ -44,9 +44,17 @@ class Procesador(BaseProcesador):
         :return:
         """
         print("Procesando...")
-        for i in range(0, senial.tamanio):
-            self._senial_procesada.poner_valor(senial.obtener_valor(i) * 2)
+        self._senial_procesada._valores = list(map(self._funcion_doble, senial._valores))
         return
+
+
+    def _funcion_doble(self, valor):
+        """
+        Funcion que retorna el doble de valor de entrada
+        :param valor:
+        :return:
+        """
+        return valor * 2
 
 
 class ProcesadorConUmbral(BaseProcesador):
@@ -69,9 +77,13 @@ class ProcesadorConUmbral(BaseProcesador):
         :return:
         """
         print("Procesando con umbral")
-        for i in range(0, senial.tamanio):
-            if senial.obtener_valor(i) < self._umbral:
-                self._senial_procesada.poner_valor(senial.obtener_valor(i))
-            else:
-                self._senial_procesada.poner_valor(0)
+        self._senial_procesada._valores = list(map(self._funcion_umbral, senial._valores))
         return
+
+    def _funcion_umbral(self, valor):
+        """
+        Funcion que filtra valores con un umbral
+        :param valor:
+        :return:
+        """
+        return valor if valor < self._umbral else 0

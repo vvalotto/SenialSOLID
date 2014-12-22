@@ -11,6 +11,7 @@ import modelo
 
 from adquisidor.adquisidor import *
 from procesador.procesador import *
+from configurador import *
 from visualizador.visualizador import *
 
 
@@ -49,7 +50,7 @@ class Lanzador():
         Lanzador.tecla()
 
         a = Adquisidor(5)
-        p = Procesador()
+        p = Configurador.procesador
         v = Visualizador()
 
         os.system("clear")
@@ -61,14 +62,14 @@ class Lanzador():
 
         '''Paso 2 - Se procesa la senial adquirida'''
         print("Incio - Paso 2 - Procesamiento")
-        p.procesar_senial(sa)
+        p.procesar(sa)
         sp = p.obtener_senial_procesada()
         Lanzador.tecla()
 
         '''Paso 3 - Se muestran las seniales '''
         print("Incio - Paso 3 - Mostrar Senial")
         v.mostrar_datos(sp)
-        print("Fin Programa - SRP")
+        print("Fin Programa - OCP")
 
 
 if __name__ == "__main__":

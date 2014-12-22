@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(
     name='SenialSOLID',
-    version='2.3.0',
-    description='SenialSOLID - Paso 3: Aplicacion del Principio SRP - con Modulos compilados separados',
+    version='4.0.0',
+    description='SenialSOLID - Paso 5: Aplicacion del Principio OCP - Solo Procesador',
     author='VV',
     author_email='vvalotto@gmail.com',
-    py_modules=['lanzador'],
+    py_modules=['lanzador', 'configurador'],
     entry_points={'console_scripts': 'lanzador = lanzador:Lanzador.ejecutar'}
 )
