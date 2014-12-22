@@ -49,7 +49,7 @@ class Lanzador():
         Lanzador.informar_versiones()
         Lanzador.tecla()
 
-        a = Adquisidor(5)
+        a = Configurador.adquisidor
         p = Configurador.procesador
         v = Visualizador()
 

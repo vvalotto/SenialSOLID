@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='SenialSOLID',
-    version='4.0.0',
+    version='4.0.1',
     description='SenialSOLID - Paso 5: Aplicacion del Principio OCP - Solo Procesador',
     author='VV',
     author_email='vvalotto@gmail.com',
