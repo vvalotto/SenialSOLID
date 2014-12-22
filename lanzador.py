@@ -55,6 +55,7 @@ class Lanzador():
         '''Paso 1 - Se obtiene la senial'''
         a.leer_senial()
         sa = a.obtener_senial_adquirida()
+        print(sa.tamanio)
         Lanzador.tecla()
 
         '''Paso 2 - Se procesa la senial adquirida'''
@@ -66,7 +67,7 @@ class Lanzador():
         '''Paso 3 - Se muestran las seniales '''
         print("Incio - Paso 3 - Mostrar Senial")
         v.mostrar_datos(sp)
-        print("Fin Programa - OCP")
+        print("Fin Programa - NoLSP")
 
 
 if __name__ == "__main__":

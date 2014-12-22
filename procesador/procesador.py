@@ -44,7 +44,8 @@ class Procesador(BaseProcesador):
         :return:
         """
         print("Procesando...")
-        self._senial_procesada._valores = list(map(self._funcion_doble, senial._valores))
+        self._senial_procesada.valores = list(map(self._funcion_doble, senial.valores))
+        self._senial_procesada.tamanio += senial.tamanio
         return
 
 
@@ -77,7 +78,8 @@ class ProcesadorConUmbral(BaseProcesador):
         :return:
         """
         print("Procesando con umbral")
-        self._senial_procesada._valores = list(map(self._funcion_umbral, senial._valores))
+        self._senial_procesada.valores = list(map(self._funcion_umbral, senial.valores))
+        self._senial_procesada.tamanio += senial.tamanio
         return
 
     def _funcion_umbral(self, valor):
