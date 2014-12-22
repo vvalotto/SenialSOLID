@@ -9,10 +9,7 @@ import procesador
 import visualizador
 import modelo
 
-from adquisidor.adquisidor import *
-from procesador.procesador import *
 from configurador import *
-from visualizador.visualizador import *
 
 
 class Lanzador():
@@ -51,7 +48,7 @@ class Lanzador():
 
         a = Configurador.adquisidor
         p = Configurador.procesador
-        v = Visualizador()
+        v = Configurador.visualizador
 
         os.system("clear")
         print("Incio - Paso 1 - Adquisicion de la senial")
