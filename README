@@ -1,3 +1,2 @@
 Demostración de la aplicación de principios de Diseño SOLID en Python.
-Se aplica el OCP, donde se define abstracciones para los diferentes modulos
-y luego se extienden su implementaciones.
+Se presenta la violacion del principio LSP.

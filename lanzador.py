@@ -1,4 +1,7 @@
 #!/usr/local/bin/python3.4
+__author__ = 'Victor Valotto'
+__version__ = '5.0.0'
+
 """
 Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
 entre diferentes clases.
@@ -10,6 +13,8 @@ import visualizador
 import modelo
 
 from configurador import *
+
+
 
 
 class Lanzador():

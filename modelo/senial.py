@@ -17,18 +17,20 @@ class Senial(object):
     -> obtener_tamanio()
     """
     
-    def __init__(self):
+    def __init__(self, tamanio=10):
         """
         Constructor: Inicializa la lista de valores vacia
+        tamanio: Inicializa la lista de valores con un tamanio predefinido
         :return:
         """
         self._valores = []
         self._fecha_adquisicion = None
         self._cantidad = 0
+        self._tamanio = tamanio
         return
 
-    #Propiedades
-    #Fecha de Adquisicion
+    # Propiedades
+    # Fecha de Adquisicion
     @property
     def fecha_adquisicion(self):
         return self._fecha_adquisicion
@@ -41,14 +43,22 @@ class Senial(object):
     def fecha_adquisicion(self):
         del self._fecha_adquisicion
 
-    #Tamanio de la adquisicion
+    # Tamanio de la adquisicion
+    @property
+    def cantidad(self):
+        return self._cantidad
+
+    @cantidad.setter
+    def cantidad(self, valor):
+        self._cantidad = valor
+
     @property
     def tamanio(self):
-        return self._cantidad
+        return self._tamanio
 
     @tamanio.setter
     def tamanio(self, valor):
-        self._cantidad = valor
+        self._tamanio = valor
 
     @property
     def valores(self):
@@ -58,14 +68,29 @@ class Senial(object):
     def valores(self, datos):
         self._valores = datos
 
-
     def poner_valor(self, valor):
         """
         Agrega dato a la lista de la senial
         :param valor: dato de la senial obtenida
         """
-        self._valores.append(valor)
-        self._cantidad += 1
+        try:
+            if self._tamanio != self._cantidad:
+                if isinstance(self, SenialPila):
+                    self._valores.append(valor)
+                elif isinstance(self, SenialCola):
+                    self._valores[self._cola] = valor
+                    if self._cola == (self._tamanio - 1):
+                        self._cola = 0
+                    else:
+                        self._cola += 1
+                elif isinstance(self, Senial):
+                    self._valores.append(valor)
+                self._cantidad += 1
+            else:
+                raise Exception('No se pueden poner mas datos')
+        except Exception as e:
+            print("Error: ", e)
+
         return
     
     def obtener_valor(self, indice):
@@ -80,3 +105,60 @@ class Senial(object):
         except Exception as ex:
             print('Error: ', ex.args)
             return None
+
+    def __str__(self):
+        cad = ""
+        cad += "tamanio: " + str(self._tamanio) + "\n"
+        cad += "fecha_adquisicion: " + str(self._fecha_adquisicion)
+        return cad
+
+
+class SenialPila(Senial):
+    """
+    Clase de tipo Pila que hereda de la clase senial los miembros variables de instancia
+    y extiende el metodo para sacar datos
+    """
+    def sacar_valor(self):
+        try:
+            if self._cantidad != 0:
+                self._cantidad -= 1
+                return self._valores[self._cantidad]
+            else:
+                raise Exception('No hay valores para sacar')
+        except Exception as e:
+            print('Error ;', e)
+
+
+class SenialCola(Senial):
+    """
+    Clase de tipo Cola que hereda de la clase senial los miembros variables de instancia
+    y extiende el metodo para sacar datos
+    """
+    def __init__(self, tamanio):
+        """
+        Construye la instancia de la estructura cola circular, donde se indica el
+        tamanio de la cola y se inicializan los punteros de la cabeza y cola
+        :param tamanio:
+        :return:
+        """
+        super().__init__(tamanio)
+        self._cabeza = 0
+        self._cola = 0
+        # Se crea la cola vacia pero con lugares para poner valores
+        for i in range(0, tamanio):
+            self._valores.append(None)
+
+    def sacar_valor(self):
+        try:
+            if (self._cabeza != self._cola) or ((self._cabeza == self._cola) and (self._cantidad != 0)):
+                valor = self._valores[self._cabeza]
+                if self._cabeza == (self._tamanio - 1):
+                    self._cabeza = 0
+                else:
+                    self._cabeza += 1
+                self._cantidad -= 1
+                return valor
+            else:
+                raise Exception('No hay valores para sacar')
+        except Exception as e:
+            print('Error ;', e)

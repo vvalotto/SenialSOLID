@@ -1,8 +1,10 @@
 from setuptools import setup
+import visualizador
+
 
 setup(
     name='visualizador',
-    version='1.0.0',
+    version=visualizador.__author__,
     description='Modulo de defincion del interfaz de consola',
     author='VV',
     author_email='vvalotto@gmail.com',

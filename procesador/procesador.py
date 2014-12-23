@@ -12,11 +12,11 @@ class BaseProcesador(metaclass=ABCMeta):
     """
     Clase Abstracta Procesador
     """
-    def __init__(self):
+    def __init__(self, senial):
         """
         Se inicializa con la senial que se va a procesar
         """
-        self._senial_procesada = Senial()
+        self._senial_procesada = senial
         return
 
     @abstractmethod
@@ -37,6 +37,9 @@ class Procesador(BaseProcesador):
     """
     Clase Procesador simple
     """
+    def __init__(self, senial):
+        BaseProcesador.__init__(self, senial)
+
     def procesar(self, senial):
         """
         Implementa el procesamiento de duplicar el valor se cada valor de senial
@@ -44,8 +47,8 @@ class Procesador(BaseProcesador):
         :return:
         """
         print("Procesando...")
-        self._senial_procesada.valores = list(map(self._funcion_doble, senial.valores))
-        self._senial_procesada.tamanio += senial.tamanio
+        for i in range(0, senial.cantidad):
+            self._senial_procesada.poner_valor(self._funcion_doble(senial.obtener_valor(i)))
         return
 
 
@@ -62,13 +65,13 @@ class ProcesadorConUmbral(BaseProcesador):
     """
     Clase Procesador con Umbral
     """
-    def __init__(self, umbral):
+    def __init__(self, umbral, senial):
         """
         Sobreescribe el constructor de la clase abstracta para inicializar el umbral
         :param umbral:
         :return:
         """
-        BaseProcesador.__init__(self)
+        BaseProcesador.__init__(self, senial)
         self._umbral = umbral
 
     def procesar(self, senial):
@@ -78,8 +81,8 @@ class ProcesadorConUmbral(BaseProcesador):
         :return:
         """
         print("Procesando con umbral")
-        self._senial_procesada.valores = list(map(self._funcion_umbral, senial.valores))
-        self._senial_procesada.tamanio += senial.tamanio
+        for i in range(0, senial.cantidad):
+            self._senial_procesada.poner_valor(self._funcion_umbral(senial.obtener_valor(i)))
         return
 
     def _funcion_umbral(self, valor):

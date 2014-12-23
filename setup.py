@@ -1,8 +1,9 @@
 from setuptools import setup
+import lanzador
 
 setup(
     name='SenialSOLID',
-    version='4.0.2',
+    version=lanzador.__version__,
     description='SenialSOLID - Paso 5: Aplicacion del Principio OCP - Solo Procesador',
     author='VV',
     author_email='vvalotto@gmail.com',
