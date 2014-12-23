@@ -21,7 +21,7 @@ def definir_procesador():
 
 
 def definir_adquisidor():
-    return AdquisidorArchivo(os.getcwd() + '/adquisidor/datos.txt', definir_senial_adquirir())
+    return AdquisidorArchivo('/Users/voval/tmp/adquisidor/datos.txt', definir_senial_adquirir())
 
 
 def definir_visualizador():

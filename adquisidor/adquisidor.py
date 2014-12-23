@@ -95,6 +95,7 @@ class AdquisidorArchivo(BaseAdquisidor):
 
     def leer_senial(self):
         print('Lectura de la senial')
+        print(self._ubicacion)
         try:
             with open(self._ubicacion, 'r') as a:
                 for linea in a:
@@ -102,6 +103,6 @@ class AdquisidorArchivo(BaseAdquisidor):
                     self._senial.poner_valor(dato)
                     print(dato)
         except IOError:
-            print('I/O Error: ', IOError.errno)
+            print('I/O Error: ', IOError)
         except ValueError:
             print('Dato de senial no detectado')
