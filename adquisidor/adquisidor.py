@@ -106,3 +106,5 @@ class AdquisidorArchivo(BaseAdquisidor):
             print('I/O Error: ', IOError)
         except ValueError:
             print('Dato de senial no detectado')
+        except Exception:
+            print('Error en la carga de datos')

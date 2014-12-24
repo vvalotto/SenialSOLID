@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3.4
 __author__ = 'Victor Valotto'
-__version__ = '5.0.0'
+__version__ = '6.0.0'
 
 """
 Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
@@ -72,7 +72,11 @@ class Lanzador():
         '''Paso 3 - Se muestran las seniales '''
         print("Incio - Paso 3 - Mostrar Senial")
         v.mostrar_datos(sp)
-        print("Fin Programa - NoLSP")
+        print('----->')
+        for i in range(0, sp.tamanio):
+            print(sp.sacar_valor())
+
+        print("Fin Programa - LSP")
 
 
 if __name__ == "__main__":
