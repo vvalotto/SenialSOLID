@@ -74,7 +74,7 @@ class Lanzador():
         v.mostrar_datos(sp)
         print('----->')
         for i in range(0, sp.tamanio):
-            print(sp.sacar_valor())
+            print(sp.sacar_valor(0))
 
         print("Fin Programa - LSP")
 

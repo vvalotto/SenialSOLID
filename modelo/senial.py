@@ -9,6 +9,7 @@ estructuras de las seniales y resuelve la violacion de los principio OCP y LSP
 
 from abc import ABCMeta, abstractmethod
 from collections import deque
+import datetime
 
 
 class SenialBase(metaclass=ABCMeta):
@@ -25,14 +26,31 @@ class SenialBase(metaclass=ABCMeta):
         Constructor: Inicializa la lista de valores vacia
         :return:
         """
-        self._valores = []
+        self._id = ''
+        self._comentario = ''
         self._fecha_adquisicion = None
         self._tamanio = tamanio
         self._cantidad = 0
+        self._valores = []
         return
 
     # Propiedades
-    # Fecha de Adquisicion
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, valor):
+        self._id = valor
+
+    @property
+    def comentario(self):
+        return self._comentario
+
+    @comentario.setter
+    def comentario(self, valor):
+        self._comentario = valor
+
     @property
     def fecha_adquisicion(self):
         return self._fecha_adquisicion
@@ -45,7 +63,6 @@ class SenialBase(metaclass=ABCMeta):
     def fecha_adquisicion(self):
         del self._fecha_adquisicion
 
-    # Cantidad da datod de la adquisicion
     @property
     def cantidad(self):
         return self._cantidad
@@ -54,7 +71,6 @@ class SenialBase(metaclass=ABCMeta):
     def cantidad(self, valor):
         self._cantidad = valor
 
-    # Tamanio de la estructura que mantiene los datos
     @property
     def tamanio(self):
         return self._tamanio
@@ -63,7 +79,6 @@ class SenialBase(metaclass=ABCMeta):
     def tamanio(self, valor):
         self._tamanio = valor
 
-    # Valores de las seniales
     @property
     def valores(self):
         return self._valores
@@ -96,14 +111,19 @@ class SenialBase(metaclass=ABCMeta):
         try:
             valor = self._valores[indice]
             return valor
-        except Exception as ex:
-            print("Error ", ex)
+        except Exception:
+            print("Error: ", Exception.__cause__)
             return None
 
     def __str__(self):
+        """
+        Sobreescritura de la funcion str
+        """
         cad = ""
-        cad += "tamanio: " + str(self._tamanio) + "\n"
-        cad += "fecha_adquisicion: " + str(self._fecha_adquisicion)
+        cad += 'Tipo: ' + str(type(self)) + '\r\n'
+        cad += 'Id: ' + self._id + '\r\n'
+        cad += 'Descripcion: ' + str(self._comentario) + '\r\n'
+        cad += 'fecha_adquisicion: ' + str(self._fecha_adquisicion)
         return cad
 
 
@@ -121,61 +141,64 @@ class Senial(SenialBase):
             self._valores.append(valor)
             self._cantidad += 1
         else:
-            raise Exception('No se pueden poner mas datos')
+            print('No se pueden poner mas datos')
         return
 
-    def sacar_valor(self):
-        valor = 0
-        try:
-            valor = self._valores.pop()
+    def sacar_valor(self, indice):
+        """
+        Retira un elemento de la lista ubicado en indice
+        :return: dato extraido
+        """
+        valor = None
+        if self._cantidad > 0:
+            valor = self.obtener_valor(indice)
+            self._valores.remove(valor)
             self._cantidad -= 1
-        except Exception as ex:
-            print('Error: No hay nada para sacar')
-        return valor
 
-
-class SenialPila(SenialBase):
-
-    def poner_valor(self, valor):
-        """
-        Agrega dato a la lista de la senial
-        :param valor: dato de la senial obtenida
-        """
-        if self._cantidad < self._tamanio:
-            self._valores.append(valor)
-            self._cantidad += 1
+            return valor
         else:
-            raise Exception('No se pueden poner mas datos')
-        return
-
-    def sacar_valor(self):
-        valor = 0
-        try:
-            valor = self._valores.pop()
-            self._cantidad -= 1
-        except Exception as ex:
-            print('Error: No hay nada para sacar')
+            print('No hay nada para sacar')
         return valor
 
 
-class SenialCola(SenialBase):
+class SenialPila(Senial):
+
+    def sacar_valor(self):
+        """
+        Retira un elemento de la lista ubicado en indice
+        :return: dato extraido
+        """
+        valor = None
+        try:
+            valor = self._valores.pop()
+            self._cantidad -= 1
+            return valor
+        except Exception('No hay nada para sacar'):
+            print(Exception)
+        return valor
+
+
+class SenialCola(Senial):
     def __init__(self, tamanio):
         super().__init__(tamanio)
         self._valores = deque([])
 
-    def poner_valor(self, valor):
-        if self._cantidad < self._tamanio:
-            self._valores.append(valor)
-            self._cantidad += 1
-        else:
-            raise Exception('No se pueden poner mas datos')
-        return
-
     def sacar_valor(self):
+        """
+        Retira un elemento de la lista ubicado en indice
+        :return: dato extraido
+        """
         valor = 0
         try:
             valor = self._valores.popleft()
             self._cantidad -= 1
-        except Exception as ex:
-            print('No hay nada para sacar:', ex)
+        except Exception('No hay nada para sacar'):
+            print(Exception)
         return valor
+
+
+if __name__ == "__main__":
+    s = SenialPila()
+    s.id = '100'
+    s._fecha_adquisicion = datetime.datetime.now()
+    print(s)

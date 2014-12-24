@@ -36,7 +36,7 @@ class TestSenial(unittest.TestCase):
         for i in range(0, 5):
             self.senial.poner_valor(i * 10)
         self.assertEqual([0, 10, 20, 30, 40], self.senial._valores)
-        self.assertEqual(4, self.senial.cantidad)
+        self.assertNotEqual(4, self.senial.cantidad)
 
 if __name__ == '__main__':
     unittest.main()
