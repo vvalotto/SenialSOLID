@@ -54,8 +54,9 @@ class Lanzador():
         a = Configurador.adquisidor
         p = Configurador.procesador
         v = Configurador.visualizador
-        pa = Configurador.persistidor_adquisicion
-        pp = Configurador.persistidor_procesamiento
+        rep_adq = Configurador.rep_adquisicion
+        rep_pro = Configurador.rep_procesamiento
+
 
         'Obtencion de la señal y guardado'
         print('>')
@@ -65,31 +66,31 @@ class Lanzador():
         sa = a.obtener_senial_adquirida()
         sa.fecha_adquisicion = datetime.datetime.now().date()
         sa.comentario = input('Descripcion de la señal:')
-        sa.id = int(input('Identificacion (nro entero)'))
+        sa.id = int(input('Identificacion (nro entero):'))
         print('Fecha de lectura: {0}'.format(sa.fecha_adquisicion))
         print('Cantidad de valores obtenidos {0}'.format(sa.cantidad))
         Lanzador.tecla()
         print('Se persiste la señal adquirida')
-        pa.persistir(sa, sa.id)
+        rep_adq.guardar(sa)
         print('Señal Guardada')
 
         '''Paso 2 - Se procesa la señal adquirida'''
         print('>')
         print("Incio - Paso 2 - Procesamiento")
-        para_procesar = pa.recuperar(Senial(), sa.id)
+        para_procesar = rep_adq.obtener(Senial(), sa.id)
         p.procesar(para_procesar)
         sp = p.obtener_senial_procesada()
         Lanzador.tecla()
         print('Se persiste la señal procesada')
         sp.comentario = input('Descripcion de la señal procesada:')
         sp.id = int(input('Identificacion (nro entero)'))
-        pp.persistir(sp, sp.id)
+        rep_pro.guardar(sp)
         print('Señal Guardada')
 
         '''Paso 3 - Se muestran las seniales '''
         print("Incio - Paso 3 - Mostrar Senial")
-        adquirida = pa.recuperar(Senial(), sa.id)
-        procesada = pp.recuperar(Senial(), sp.id)
+        adquirida = rep_adq.obtener(Senial(), sa.id)
+        procesada = rep_pro.obtener(Senial(), sp.id)
         v.mostrar_datos(adquirida)
         print('----->')
         v.mostrar_datos(procesada)

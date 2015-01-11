@@ -7,7 +7,7 @@ import pickle
 from persistidor.mapeador import *
 
 
-class Persistidor(metaclass=ABCMeta):
+class BaseContexto(metaclass=ABCMeta):
     """
     Clase abstract que define la interfaz de la persistencia de datos
     """
@@ -40,7 +40,7 @@ class Persistidor(metaclass=ABCMeta):
         """
         pass
 
-class PersistidorPickle(Persistidor):
+class ContextoPickle(BaseContexto):
     """
     Clase de persistidor que persiste un tipo de objeto de manera serializada
     """
@@ -91,7 +91,7 @@ class PersistidorPickle(Persistidor):
             print(eVE)
         return e
 
-class PersistidorArchivo(Persistidor):
+class ContextoArchivo(BaseContexto):
     """
     Contexto del recurso de persistencia de tipo archivo
     """
@@ -107,7 +107,7 @@ class PersistidorArchivo(Persistidor):
             self._recurso = recurso
             if not os.path.isdir(recurso): os.mkdir(recurso)
         except IOError as eIO:
-            raise(eIO)
+            raise eIO
 
     def persistir(self, entidad, nombre_entidad):
         """
