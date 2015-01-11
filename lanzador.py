@@ -1,20 +1,19 @@
 #!/usr/local/bin/python3.4
 __author__ = 'Victor Valotto'
-__version__ = '6.0.0'
+__version__ = '7.0.0'
 
 """
 Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
 entre diferentes clases.
 """
-import os
 import adquisidor
 import procesador
 import visualizador
 import modelo
+import persistidor
 
+from datetime import datetime
 from configurador import *
-
-
 
 
 class Lanzador():
@@ -41,6 +40,7 @@ class Lanzador():
         print("adquisidor: " + adquisidor.__version__)
         print("procesador: " + procesador.__version__)
         print("visualizador: " + visualizador.__version__)
+        print("persistidor: " + persistidor.__version__)
         print("modelo: " + modelo.__version__)
 
     @staticmethod
@@ -54,29 +54,49 @@ class Lanzador():
         a = Configurador.adquisidor
         p = Configurador.procesador
         v = Configurador.visualizador
+        pa = Configurador.persistidor_adquisicion
+        pp = Configurador.persistidor_procesamiento
 
-        os.system("clear")
-        print("Incio - Paso 1 - Adquisicion de la senial")
-        '''Paso 1 - Se obtiene la senial'''
+        'Obtencion de la señal y guardado'
+        print('>')
+        print("Incio - Paso 1 - Adquisicion de la señal")
+        '''Paso 1 - Se obtiene la señal'''
         a.leer_senial()
         sa = a.obtener_senial_adquirida()
-        print(sa.tamanio)
+        sa.fecha_adquisicion = datetime.datetime.now().date()
+        sa.comentario = input('Descripcion de la señal:')
+        sa.id = int(input('Identificacion (nro entero)'))
+        print('Fecha de lectura: {0}'.format(sa.fecha_adquisicion))
+        print('Cantidad de valores obtenidos {0}'.format(sa.cantidad))
         Lanzador.tecla()
+        print('Se persiste la señal adquirida')
+        pa.persistir(sa, sa.id)
+        print('Señal Guardada')
 
-        '''Paso 2 - Se procesa la senial adquirida'''
+        '''Paso 2 - Se procesa la señal adquirida'''
+        print('>')
         print("Incio - Paso 2 - Procesamiento")
-        p.procesar(sa)
+        para_procesar = pa.recuperar(sa.id)
+        p.procesar(para_procesar)
         sp = p.obtener_senial_procesada()
         Lanzador.tecla()
+        print('Se persiste la señal procesada')
+        sp.comentario = input('Descripcion de la señal procesada:')
+        sp.id = int(input('Identificacion (nro entero)'))
+        pp.persistir(sp, sp.id)
+        print('Señal Guardada')
 
         '''Paso 3 - Se muestran las seniales '''
         print("Incio - Paso 3 - Mostrar Senial")
-        v.mostrar_datos(sp)
+        adquirida = pa.recuperar(sa.id)
+        procesada = pp.recuperar(sp.id)
+        v.mostrar_datos(adquirida)
         print('----->')
-        for i in range(0, sp.tamanio):
-            print(sp.sacar_valor(0))
+        v.mostrar_datos(procesada)
+        print('----->')
 
-        print("Fin Programa - LSP")
+        print("Fin Programa - NoISP")
+        exit()
 
 
 if __name__ == "__main__":

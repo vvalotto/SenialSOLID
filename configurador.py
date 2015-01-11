@@ -4,8 +4,8 @@ Configura la clase que se usara
 from procesador.procesador import *
 from adquisidor.adquisidor import *
 from visualizador.visualizador import *
+from persistidor.persistidor import *
 from modelo.senial import *
-import os
 
 
 def definir_senial_adquirir():
@@ -28,6 +28,10 @@ def definir_visualizador():
     return Visualizador()
 
 
+def definir_persistidor(recurso):
+    return PersistidorPickle(recurso)
+
+
 class Configurador(object):
     """
     El Configurador es un contenedor de objetos que participan de la solucion
@@ -35,6 +39,8 @@ class Configurador(object):
     adquisidor = definir_adquisidor()  # Se configura el tipo de adquisidor
     procesador = definir_procesador()  # Se configura el tipo de procesador
     visualizador = definir_visualizador()  # Se configura el visualizador
+    persistidor_adquisicion = definir_persistidor('/Users/voval/tmp/datos/adq')
+    persistidor_procesamiento = definir_persistidor('/Users/voval/tmp/datos/pro')
 
     def __init__(self):
         pass
