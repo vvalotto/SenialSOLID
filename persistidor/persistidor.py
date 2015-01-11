@@ -4,6 +4,7 @@ en algun tipo de almacen de persistencia (archivo plano, xml, serializa, base de
 """
 import os
 import pickle
+from persistidor.mapeador import *
 
 
 class PersistidorPickle(object):
@@ -55,3 +56,62 @@ class PersistidorPickle(object):
         except ValueError as eVE:
             print(eVE)
         return e
+
+class PersistidorArchivo(object):
+    """
+    Contexto del recurso de persistencia de tipo archivo
+    """
+    def __init__(self, recurso):
+        """
+        Se crea el archivo con el path donde se guardarán los archivos
+        de la entidades a persistir
+        :param nombre: Path del repositorio de entidades
+        :return:
+        """
+        try:
+            self._recurso = recurso
+            if not os.path.isdir(recurso): os.mkdir(recurso)
+        except IOError as eIO:
+            raise(eIO)
+
+    def persistir(self, entidad, nombre_entidad):
+        """
+        Agregar un objeto(entidad) para persistirlo.
+        :param entidad: Tipo de entidad
+        :param nombre_entidad: identificacion de la instancia de la entidad
+        :return:
+        """
+        mapeador = MapeadorArchivo()
+        archivo = str(nombre_entidad) + '.dat'
+        contenido = mapeador.ir_a_persistidor(entidad)
+        ubicacion = self._recurso + "/" + archivo
+
+        try:
+            with open(ubicacion, "w") as a:
+                a.write(contenido)
+        except IOError as eIO:
+            raise eIO
+        return
+
+    def recuperar(self, entidad, id_entidad):
+        """
+        Obtiene la entidad guardada
+        :param entidad:
+        :param id_entidad:
+        :return:
+        """
+        contenido = ''
+        archivo = str(id_entidad) + '.dat'
+        ubicacion = self._recurso + "/" + archivo
+        try:
+            with open(ubicacion) as persitidor:
+                linea = persitidor.readline()
+                while linea != '':
+                    contenido = contenido + linea
+                    linea = persitidor.readline()
+            mapeador = MapeadorArchivo()
+            return mapeador.venir_desde_persistidor(entidad, contenido)
+        except IOError as eIO:
+            raise eIO
+        except ValueError:
+            raise ValueError

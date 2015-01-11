@@ -29,7 +29,7 @@ def definir_visualizador():
 
 
 def definir_persistidor(recurso):
-    return PersistidorPickle(recurso)
+    return PersistidorArchivo(recurso)
 
 
 class Configurador(object):

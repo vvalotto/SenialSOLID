@@ -76,7 +76,7 @@ class Lanzador():
         '''Paso 2 - Se procesa la señal adquirida'''
         print('>')
         print("Incio - Paso 2 - Procesamiento")
-        para_procesar = pa.recuperar(sa.id)
+        para_procesar = pa.recuperar(Senial(), sa.id)
         p.procesar(para_procesar)
         sp = p.obtener_senial_procesada()
         Lanzador.tecla()
@@ -88,8 +88,8 @@ class Lanzador():
 
         '''Paso 3 - Se muestran las seniales '''
         print("Incio - Paso 3 - Mostrar Senial")
-        adquirida = pa.recuperar(sa.id)
-        procesada = pp.recuperar(sp.id)
+        adquirida = pa.recuperar(Senial(), sa.id)
+        procesada = pp.recuperar(Senial(), sp.id)
         v.mostrar_datos(adquirida)
         print('----->')
         v.mostrar_datos(procesada)
