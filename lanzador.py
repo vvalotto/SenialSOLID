@@ -48,56 +48,63 @@ class Lanzador():
         """
         Se instancian las clases que participan del procesamiento
         """
-        Lanzador.informar_versiones()
-        Lanzador.tecla()
+        try:
+            Lanzador.informar_versiones()
+            Lanzador.tecla()
 
-        a = Configurador.adquisidor
-        p = Configurador.procesador
-        v = Configurador.visualizador
-        rep_adq = Configurador.rep_adquisicion
-        rep_pro = Configurador.rep_procesamiento
+            a = Configurador.adquisidor
+            p = Configurador.procesador
+            v = Configurador.visualizador
+            rep_adq = Configurador.rep_adquisicion
+            rep_pro = Configurador.rep_procesamiento
 
+            'Obtencion de la señal y guardado'
+            print('>')
+            print("Incio - Paso 1 - Adquisicion de la señal")
+            '''Paso 1 - Se obtiene la señal'''
+            a.leer_senial()
+            sa = a.obtener_senial_adquirida()
+            sa.fecha_adquisicion = datetime.datetime.now().date()
+            sa.comentario = input('Descripcion de la señal:')
+            sa.id = int(input('Identificacion (nro entero):'))
+            print('Fecha de lectura: {0}'.format(sa.fecha_adquisicion))
+            print('Cantidad de valores obtenidos {0}'.format(sa.cantidad))
+            rep_adq.auditar(sa, "Señal Adquirida")
+            Lanzador.tecla()
+            print('Se persiste la señal adquirida')
+            rep_adq.guardar(sa)
+            print('Señal Guardada')
+            rep_adq.auditar(sa, "Señal Guardada")
 
-        'Obtencion de la señal y guardado'
-        print('>')
-        print("Incio - Paso 1 - Adquisicion de la señal")
-        '''Paso 1 - Se obtiene la señal'''
-        a.leer_senial()
-        sa = a.obtener_senial_adquirida()
-        sa.fecha_adquisicion = datetime.datetime.now().date()
-        sa.comentario = input('Descripcion de la señal:')
-        sa.id = int(input('Identificacion (nro entero):'))
-        print('Fecha de lectura: {0}'.format(sa.fecha_adquisicion))
-        print('Cantidad de valores obtenidos {0}'.format(sa.cantidad))
-        Lanzador.tecla()
-        print('Se persiste la señal adquirida')
-        rep_adq.guardar(sa)
-        print('Señal Guardada')
+            '''Paso 2 - Se procesa la señal adquirida'''
+            print('>')
+            print("Incio - Paso 2 - Procesamiento")
+            para_procesar = rep_adq.obtener(Senial(), sa.id)
+            p.procesar(para_procesar)
+            sp = p.obtener_senial_procesada()
+            rep_pro.auditar(sp, "Señal procesada")
+            Lanzador.tecla()
+            print('Se persiste la señal procesada')
+            sp.comentario = input('Descripcion de la señal procesada:')
+            sp.id = int(input('Identificacion (nro entero)'))
+            rep_pro.guardar(sp)
+            print('Señal Guardada')
+            rep_pro.auditar(sp, "Señal Guardad")
 
-        '''Paso 2 - Se procesa la señal adquirida'''
-        print('>')
-        print("Incio - Paso 2 - Procesamiento")
-        para_procesar = rep_adq.obtener(Senial(), sa.id)
-        p.procesar(para_procesar)
-        sp = p.obtener_senial_procesada()
-        Lanzador.tecla()
-        print('Se persiste la señal procesada')
-        sp.comentario = input('Descripcion de la señal procesada:')
-        sp.id = int(input('Identificacion (nro entero)'))
-        rep_pro.guardar(sp)
-        print('Señal Guardada')
+            '''Paso 3 - Se muestran las seniales '''
+            print("Incio - Paso 3 - Mostrar Senial")
+            adquirida = rep_adq.obtener(Senial(), sa.id)
+            procesada = rep_pro.obtener(Senial(), sp.id)
+            v.mostrar_datos(adquirida)
+            print('----->')
+            v.mostrar_datos(procesada)
+            print('----->')
 
-        '''Paso 3 - Se muestran las seniales '''
-        print("Incio - Paso 3 - Mostrar Senial")
-        adquirida = rep_adq.obtener(Senial(), sa.id)
-        procesada = rep_pro.obtener(Senial(), sp.id)
-        v.mostrar_datos(adquirida)
-        print('----->')
-        v.mostrar_datos(procesada)
-        print('----->')
-
-        print("Fin Programa - NoISP")
-        exit()
+        except Exception as ex:
+            print(ex.with_traceback())
+            print("El programa termino con errores")
+        finally:
+            print("Fin Programa - NoISP")
 
 
 if __name__ == "__main__":

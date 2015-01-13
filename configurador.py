@@ -10,15 +10,15 @@ from modelo.senial import *
 
 
 def definir_senial_adquirir():
-    return Senial()
+    return SenialPila()
 
 
 def definir_senial_procesar():
-    return Senial()
+    return SenialPila()
 
 
 def definir_procesador():
-    return ProcesadorConUmbral(20, definir_senial_procesar())
+    return Procesador( definir_senial_procesar())
 
 
 def definir_adquisidor():
@@ -30,7 +30,7 @@ def definir_visualizador():
 
 
 def definir_contexto(recurso):
-    return ContextoArchivo(recurso)
+    return ContextoPickle(recurso)
 
 
 def definir_repositorio(contexto):
