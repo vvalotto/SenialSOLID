@@ -122,3 +122,11 @@ class RepositorioUsuario(BaseRepositorio):
             return self._contexto.recuperar(usuario, id_usuario)
         except Exception:
             raise Exception
+
+    def auditar(self, entidad, auditoria):
+        raise "Auditar, Metodo No implementado"
+        pass
+
+    def trazar(self, entidad, acción, mensaje):
+        raise "Trazar Metodo No Implementado"
+        pass

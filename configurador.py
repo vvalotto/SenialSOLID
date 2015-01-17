@@ -41,7 +41,7 @@ class Configurador(object):
     """
     El Configurador es un contenedor de objetos que participan de la solucion
     """
-    ctx_datos_adquisicion = definir_contexto('/Users/voval/tmp/adq')
+    ctx_datos_adquisicion = definir_contexto('/Users/voval/tmp/datos/adq')
     ctx_datos_procesamiento = definir_contexto('/Users/voval/tmp/datos/pro')
 
     rep_adquisicion = definir_repositorio(ctx_datos_adquisicion)
