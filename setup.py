@@ -8,5 +8,6 @@ setup(
     author='VV',
     author_email='vvalotto@gmail.com',
     py_modules=['lanzador', 'configurador'],
-    entry_points={'console_scripts': 'lanzador = lanzador:Lanzador.ejecutar'}
+    entry_points={'console_scripts': 'lanzador = lanzador:Lanzador.ejecutar'},
+    package_data={'': ['data/*.xml']}
 )

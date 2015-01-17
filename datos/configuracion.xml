@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<configuracion>
+    <dir_datos>/Users/voval/tmp/datos</dir_datos>
+    <dir_entrada_datos>/Users/voval/tmp/adquisidor</dir_entrada_datos>
+</configuracion>

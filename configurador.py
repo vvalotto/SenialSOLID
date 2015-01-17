@@ -1,6 +1,7 @@
 """
 Configura la clase que se usara
 """
+from xml.dom import minidom
 from procesador.procesador import *
 from adquisidor.adquisidor import *
 from visualizador.visualizador import *
@@ -18,7 +19,7 @@ def definir_senial_procesar():
 
 
 def definir_procesador():
-    return Procesador( definir_senial_procesar())
+    return Procesador(definir_senial_procesar())
 
 
 def definir_adquisidor():
@@ -36,13 +37,29 @@ def definir_contexto(recurso):
 def definir_repositorio(contexto):
     return RepositorioSenial(contexto)
 
+def obtener_dir_datos():
+    try:
+        conf = minidom.parse("./datos/configuracion.xml")
+        dir_datos = conf.getElementsByTagName("dir_datos")[0]
+        return dir_datos.firstChild.data
+    except Exception as ex:
+        raise(ex)
+
+def obtener_dir_adquisicion():
+    try:
+        conf = minidom.parse("./datos/configuracion.xml")
+        dir_datos = conf.getElementsByTagName("dir_entrada_datos")[0]
+        return dir_datos.firstChild.data
+    except Exception as ex:
+        raise(ex)
+
 
 class Configurador(object):
     """
     El Configurador es un contenedor de objetos que participan de la solucion
     """
-    ctx_datos_adquisicion = definir_contexto('/Users/voval/tmp/datos/adq')
-    ctx_datos_procesamiento = definir_contexto('/Users/voval/tmp/datos/pro')
+    ctx_datos_adquisicion = definir_contexto(obtener_dir_datos() + '/adq')
+    ctx_datos_procesamiento = definir_contexto(obtener_dir_datos() + '/pro')
 
     rep_adquisicion = definir_repositorio(ctx_datos_adquisicion)
     rep_procesamiento = definir_repositorio(ctx_datos_procesamiento)

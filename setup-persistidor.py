@@ -1,9 +1,9 @@
 from setuptools import setup
-import adquisidor
+import persistidor
 
 setup(
     name='persistidor',
-    version=adquisidor.__version__,
+    version=persistidor.__version__,
     description='Modulo de definición de la persistencia de datos',
     author='VV',
     author_email='vvalotto@gmail.com',
