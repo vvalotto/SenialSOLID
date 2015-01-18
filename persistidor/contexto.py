@@ -6,9 +6,11 @@ import os
 import pickle
 import datetime
 from persistidor.mapeador import *
+from utiles.trazador import *
+from utiles.auditor import *
 
 
-class BaseContexto(metaclass=ABCMeta):
+class BaseContexto(BaseTrazador, BaseAuditor, metaclass=ABCMeta):
     """
     Clase abstract que define la interfaz de la persistencia de datos
     """
@@ -43,7 +45,7 @@ class BaseContexto(metaclass=ABCMeta):
         pass
 
     def auditar(self, contexto, auditoria):
-        nombre = 'auditor.log'
+        nombre = 'auditor_contexto.log'
         try:
             with open(nombre, 'a') as auditor:
                 auditor.writelines('------->\n')
@@ -55,7 +57,7 @@ class BaseContexto(metaclass=ABCMeta):
 
     def trazar(self, contexto, accion, mensaje):
 
-        nombre = 'logger.log'
+        nombre = 'logger_contexto.log'
         try:
             with open(nombre, 'a') as logger:
                 logger.writelines('------->\n')
@@ -81,6 +83,7 @@ class ContextoPickle(BaseContexto):
         try:
             super().__init__(recurso)
             if not os.path.isdir(recurso): os.mkdir(recurso)
+            self.auditar(self, "Se creo el contexto")
         except IOError as eIO:
             self.trazar("Pickle", "Crear contexto", eIO)
             raise eIO
@@ -133,6 +136,7 @@ class ContextoArchivo(BaseContexto):
         try:
             super().__init__(recurso)
             if not os.path.isdir(recurso): os.mkdir(recurso)
+            self.auditar(self, "Se creo el contexto")
         except IOError as eIO:
             self.trazar("Archivo", "Crear contexto", eIO)
             raise eIO

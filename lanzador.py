@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3.4
 __author__ = 'Victor Valotto'
-__version__ = '7.0.1'
+__version__ = '8.0.0'
 
 """
 Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
@@ -11,6 +11,7 @@ import procesador
 import visualizador
 import modelo
 import persistidor
+import utiles
 
 from datetime import datetime
 from configurador import *
@@ -42,6 +43,7 @@ class Lanzador():
         print("visualizador: " + visualizador.__version__)
         print("persistidor: " + persistidor.__version__)
         print("modelo: " + modelo.__version__)
+        print("utiles: " + utiles.__version__)
 
     @staticmethod
     def ejecutar():
@@ -69,12 +71,10 @@ class Lanzador():
             sa.id = int(input('Identificacion (nro entero):'))
             print('Fecha de lectura: {0}'.format(sa.fecha_adquisicion))
             print('Cantidad de valores obtenidos {0}'.format(sa.cantidad))
-            rep_adq.auditar(sa, "Señal Adquirida")
             Lanzador.tecla()
             print('Se persiste la señal adquirida')
             rep_adq.guardar(sa)
             print('Señal Guardada')
-            rep_adq.auditar(sa, "Señal Guardada")
 
             '''Paso 2 - Se procesa la señal adquirida'''
             print('>')
@@ -82,14 +82,12 @@ class Lanzador():
             para_procesar = rep_adq.obtener(Senial(), sa.id)
             p.procesar(para_procesar)
             sp = p.obtener_senial_procesada()
-            rep_pro.auditar(sp, "Señal procesada")
             Lanzador.tecla()
             print('Se persiste la señal procesada')
             sp.comentario = input('Descripcion de la señal procesada:')
             sp.id = int(input('Identificacion (nro entero)'))
             rep_pro.guardar(sp)
             print('Señal Guardada')
-            rep_pro.auditar(sp, "Señal Guardad")
 
             '''Paso 3 - Se muestran las seniales '''
             print("Incio - Paso 3 - Mostrar Senial")
@@ -101,7 +99,7 @@ class Lanzador():
             print('----->')
 
         except Exception as ex:
-            print(ex.with_traceback())
+            print(ex)
             print("El programa termino con errores")
         finally:
             print("Fin Programa - NoISP")

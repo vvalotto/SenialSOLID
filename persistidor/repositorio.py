@@ -1,8 +1,10 @@
 from abc import ABCMeta, abstractmethod
+from utiles.auditor import *
+from utiles.trazador import *
 import datetime
 
 
-class BaseRepositorio(metaclass=ABCMeta):
+class BaseRepositorio(BaseAuditor, BaseTrazador, metaclass=ABCMeta):
     def _init__(self, contexto):
         self._contexto = contexto
     """
@@ -22,26 +24,6 @@ class BaseRepositorio(metaclass=ABCMeta):
         :param entidad: Tipo de entidad que debe rescatar
         :param id_entidad: identificador unico
         :return: retorna la instancia de la entidad indicada
-        """
-        pass
-
-    @abstractmethod
-    def auditar(self, entidad, auditoria):
-        """
-        Realiza el registro de auditoria sobre la entidad indicada
-        :param entidad:
-        :param auditoria:
-        :return:
-        """
-        pass
-
-    @abstractmethod
-    def trazar(self, entidad, acción, mensaje):
-        """
-        Realiza la traza del evento ocurrido sobre la entidad y con el mensaje de traza correspondiente
-        :param entidad:
-        :param mensaje:
-        :return:
         """
         pass
 
@@ -65,23 +47,42 @@ class RepositorioSenial(BaseRepositorio):
         :return:
         """
         try:
+            self.auditar(senial, "Antes de hacer la persistencia")
             self._contexto.persistir(senial, senial.id)
+            self.auditar(senial,  "Se realizó la persistencia")
         except Exception as ex:
+            self.auditar(senial,  "Problema al persistir persistencia")
             self.trazar(senial, "guardar", ex.with_traceback())
             raise ex
         return
 
     def obtener(self, senial, id_senial):
+        """
+        Implementa la recuperacion de la entidad (senial)
+        :param senial:
+        :param id_senial:
+        :return:
+        """
         try:
-            return self._contexto.recuperar(senial, id_senial)
+            self.auditar(senial,  "Antes de recuperar la senial")
+            senial_recuperada = self._contexto.recuperar(senial, id_senial)
+            self.auditar(senial,  "Se realizó la recuperacion")
+            return senial_recuperada
         except Exception:
+            self.auditar(senial,  "Error al recuperar")
             msj = 'Error al leer una senial persistada: '
             msj += ' - ID: ' + str(id_senial)
             self.trazar(senial, "obtener", msj)
             raise Exception
 
     def auditar(self, senial, auditoria):
-        nombre = 'auditor.log'
+        """
+        Implementacion de la auditoria de la señal
+        :param senial:
+        :param auditoria:
+        :return:
+        """
+        nombre = 'auditor_senial.log'
         try:
             with open(nombre, 'a') as auditor:
                 auditor.writelines('------->\n')
@@ -92,8 +93,14 @@ class RepositorioSenial(BaseRepositorio):
             raise eIO
 
     def trazar(self, senial, accion, mensaje):
-
-        nombre = 'logger.log'
+        """
+        Implementacion del registro de eventos de la señal
+        :param senial:
+        :param accion:
+        :param mensaje:
+        :return:
+        """
+        nombre = 'logger_senial.log'
         try:
             with open(nombre, 'a') as logger:
                 logger.writelines('------->\n')
@@ -122,11 +129,3 @@ class RepositorioUsuario(BaseRepositorio):
             return self._contexto.recuperar(usuario, id_usuario)
         except Exception:
             raise Exception
-
-    def auditar(self, entidad, auditoria):
-        raise "Auditar, Metodo No implementado"
-        pass
-
-    def trazar(self, entidad, acción, mensaje):
-        raise "Trazar Metodo No Implementado"
-        pass

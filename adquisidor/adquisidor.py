@@ -1,14 +1,12 @@
 """
-Para OCP
-Se refactoriza la clase de manera de extender otros tipos de
-funciones de adquisicion de datos sin que impacte en los anteriores programas
-o que cambiando solo las clases de alto nivel que puedan "armar" la solucion
+Se modifica la clase base y se extiende con la clase abstracta trazador
 """
 from abc import ABCMeta, abstractmethod
 from modelo.senial import *
+from utiles.trazador import *
 
 
-class BaseAdquisidor(metaclass=ABCMeta):
+class BaseAdquisidor(BaseTrazador, metaclass=ABCMeta):
     """
     Clase Abstracta Adquisidor
     """
@@ -37,6 +35,24 @@ class BaseAdquisidor(metaclass=ABCMeta):
     @abstractmethod
     def _leer_dato_entrada(self):
         pass
+
+    def trazar(self, entidad, accion, mensaje):
+        """
+        Registra un evento asociado a la proceso de adquisicion
+        entidad: clase que genera el evento
+        accion: metodo o funcion en la que se genera el evento
+        mensaje: Comentario
+        """
+        nombre = 'adquisidor_logger.log'
+        try:
+            with open(nombre, 'a') as logger:
+                logger.writelines('------->\n')
+                logger.writelines('Accion: ' + str(accion) + '\n')
+                logger.writelines(str(entidad) + '\n')
+                logger.writelines(str(datetime.datetime.now()) + '\n')
+                logger.writelines(str(mensaje) + '\n')
+        except IOError as eIO:
+            raise eIO
 
 
 class AdquisidorSimple(BaseAdquisidor):
@@ -83,6 +99,9 @@ class AdquisidorArchivo(BaseAdquisidor):
         if isinstance(ubicacion, str):
             self._ubicacion = ubicacion
         else:
+            super().trazar(AdquisidorArchivo,
+                           'Inicializacion',
+                           'El dato no es de una ubicacion valida, (No es un nombre de archivo')
             raise Exception('El dato no es de una ubicacion valida, (No es un nombre de archivo')
         return
 
@@ -102,9 +121,20 @@ class AdquisidorArchivo(BaseAdquisidor):
                     dato = float(linea)
                     self._senial.poner_valor(dato)
                     print(dato)
-        except IOError:
-            print('I/O Error: ', IOError)
-        except ValueError:
+        except IOError as ex:
+            super().trazar(AdquisidorArchivo,
+                           'leer_senial',
+                           'I/O Error: ' + str(ex))
+            raise 'I/O Error'
+        except ValueError as ex:
+            super().trazar(AdquisidorArchivo,
+                           'leer_senial',
+                           'Dato de senial no detectado: ' + str(ex))
             print('Dato de senial no detectado')
-        except Exception:
+            raise ex
+        except Exception as ex:
+            super().trazar(AdquisidorArchivo,
+                            'leer_senial',
+                           'Error en la carga de datos: ' + str(ex))
             print('Error en la carga de datos')
+            raise ex
