@@ -11,7 +11,7 @@ import procesador
 import visualizador
 import modelo
 import persistidor
-import utiles
+import utilidades
 
 from datetime import datetime
 from configurador import *
@@ -43,7 +43,7 @@ class Lanzador():
         print("visualizador: " + visualizador.__version__)
         print("persistidor: " + persistidor.__version__)
         print("modelo: " + modelo.__version__)
-        print("utiles: " + utiles.__version__)
+        print("utiles: " + utilidades.__version__)
 
     @staticmethod
     def ejecutar():

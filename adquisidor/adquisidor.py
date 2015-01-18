@@ -3,7 +3,7 @@ Se modifica la clase base y se extiende con la clase abstracta trazador
 """
 from abc import ABCMeta, abstractmethod
 from modelo.senial import *
-from utiles.trazador import *
+from utilidades.trazador import *
 
 
 class BaseAdquisidor(BaseTrazador, metaclass=ABCMeta):

@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
-from utiles.auditor import *
-from utiles.trazador import *
+from utilidades.auditor import *
+from utilidades.trazador import *
 import datetime
 
 

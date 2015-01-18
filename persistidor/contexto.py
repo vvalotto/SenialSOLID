@@ -6,8 +6,8 @@ import os
 import pickle
 import datetime
 from persistidor.mapeador import *
-from utiles.trazador import *
-from utiles.auditor import *
+from utilidades.trazador import *
+from utilidades.auditor import *
 
 
 class BaseContexto(BaseTrazador, BaseAuditor, metaclass=ABCMeta):

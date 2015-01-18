@@ -1,11 +1,11 @@
 from setuptools import setup
-import utiles
+import utilidades
 
 setup(
     name='persistidor',
-    version=utiles.__version__,
+    version=utilidades.__version__,
     description='Modulo de aspectos transversales utilitarios',
     author='VV',
     author_email='vvalotto@gmail.com',
-    packages=['utiles'],
+    packages=['utilidades'],
 )
