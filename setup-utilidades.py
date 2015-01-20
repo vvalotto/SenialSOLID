@@ -2,7 +2,7 @@ from setuptools import setup
 import utilidades
 
 setup(
-    name='persistidor',
+    name='utilidades',
     version=utilidades.__version__,
     description='Modulo de aspectos transversales utilitarios',
     author='VV',

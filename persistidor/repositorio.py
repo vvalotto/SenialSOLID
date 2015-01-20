@@ -4,7 +4,7 @@ from utilidades.trazador import *
 import datetime
 
 
-class BaseRepositorio(BaseAuditor, BaseTrazador, metaclass=ABCMeta):
+class BaseRepositorio(metaclass=ABCMeta):
     def _init__(self, contexto):
         self._contexto = contexto
     """
@@ -28,7 +28,7 @@ class BaseRepositorio(BaseAuditor, BaseTrazador, metaclass=ABCMeta):
         pass
 
 
-class RepositorioSenial(BaseRepositorio):
+class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
     """
     Definicion del Repositorio de la Entidad Senial
     """

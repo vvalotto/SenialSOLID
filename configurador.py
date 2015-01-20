@@ -37,13 +37,15 @@ def definir_contexto(recurso):
 def definir_repositorio(contexto):
     return RepositorioSenial(contexto)
 
+
 def obtener_dir_datos():
     try:
         conf = minidom.parse("./datos/configuracion.xml")
         dir_datos = conf.getElementsByTagName("dir_datos")[0]
         return dir_datos.firstChild.data
     except Exception as ex:
-        raise(ex)
+        raise ex
+
 
 def obtener_dir_adquisicion():
     try:
@@ -51,7 +53,7 @@ def obtener_dir_adquisicion():
         dir_datos = conf.getElementsByTagName("dir_entrada_datos")[0]
         return dir_datos.firstChild.data
     except Exception as ex:
-        raise(ex)
+        raise ex
 
 
 class Configurador(object):

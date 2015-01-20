@@ -70,7 +70,6 @@ class MapeadorArchivo(Mapeador):
             # Recorre los miembros que son campos de la clase para el caso de una clase compleja
             # O sea una clase que contiene variables de intancia (campos)
             # Por lo tanto recorre los campos
-            dict = (entidad.__dict__.items())
             for atributo in entidad.__dict__.keys():
                 # Si el campo es de tipo de clase base, lo mapea (lo serializa)
                 if entidad.__dict__[atributo].__class__.__name__ in Mapeador.lista_tipos_base:
@@ -85,11 +84,11 @@ class MapeadorArchivo(Mapeador):
                         entidad_mapaeada += atributo + ':' + self.ir_a_persistidor(atributo)
             entidad_mapaeada += '\n'
 
-            # Mapeo de los elementos de la coleccin (lista)
+            # Mapeo de los elementos de la coleccion (lista)
             for atributo in atr_lista:
                 if type(entidad.__dict__[atributo]) is list:
-                   i = 0
-                for elemento in entidad.__dict__[atributo]:
+                    i = 0
+                    for elemento in entidad.__dict__[atributo]:
                         entidad_mapaeada += atributo + '>' + str(i) + ':' + self.ir_a_persistidor(elemento)
                         i += 1
                         entidad_mapaeada += '\n'
