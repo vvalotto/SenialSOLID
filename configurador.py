@@ -11,11 +11,11 @@ from modelo.senial import *
 
 
 def definir_senial_adquirir():
-    return SenialPila()
+    return SenialPila(100)
 
 
 def definir_senial_procesar():
-    return SenialPila()
+    return SenialPila(100)
 
 
 def definir_procesador():
@@ -23,7 +23,7 @@ def definir_procesador():
 
 
 def definir_adquisidor():
-    return AdquisidorArchivo(obtener_dir_adquisicion() + '/datos.txt', definir_senial_adquirir())
+    return AdquisidorSenoidal(definir_senial_adquirir())
 
 
 def definir_visualizador():

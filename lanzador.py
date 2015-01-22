@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3.4
 __author__ = 'Victor Valotto'
-__version__ = '8.0.0'
+__version__ = '9.0.0'
 
 """
 Ejemplo de solucion para el SRP, donde las responsabilidades se dividen

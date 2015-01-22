@@ -4,6 +4,7 @@ Se modifica la clase base y se extiende con la clase abstracta trazador
 from abc import ABCMeta, abstractmethod
 from modelo.senial import *
 from utilidades.trazador import *
+import math
 
 
 class BaseAdquisidor(BaseTrazador, metaclass=ABCMeta):
@@ -138,3 +139,31 @@ class AdquisidorArchivo(BaseAdquisidor):
                            'Error en la carga de datos: ' + str(ex))
             print('Error en la carga de datos')
             raise ex
+
+
+class AdquisidorSenoidal(BaseAdquisidor):
+    """
+    Simulador de una entrada de senial senoidal
+    """
+    def __init__(self, senial):
+        BaseAdquisidor.__init__(self, senial)
+        self._valor = 0
+        self._i = 0
+
+    def _leer_dato_entrada(self):
+        self._valor = math.sin((float(self._i) / (float(self._senial.tamanio))) * 2 * 3.14) * 10
+        self._i += 1
+        return self._valor
+
+    def leer_senial(self):
+        print('Lectura de la senial')
+        i = 0
+        try:
+            while i < self._senial.tamanio:
+                self._senial.poner_valor(self._leer_dato_entrada())
+                i += 1
+        except Exception as ex:
+            super().trazar(AdquisidorArchivo,
+                           'leer_senial',
+                           'Error en la carga de datos: ' + str(ex))
+            print('Error en la carga de datos')
