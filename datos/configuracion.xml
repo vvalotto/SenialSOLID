@@ -1,5 +1,19 @@
 <?xml version="1.0"?>
 <configuracion>
     <dir_datos>/Users/voval/tmp/datos</dir_datos>
-    <dir_entrada_datos>/Users/voval/tmp/adquisidor</dir_entrada_datos>
+    <adquisidor>archivo
+        <param id="dir_entrada_datos">/Users/voval/tmp/adquisidor/datos.txt</param>
+    </adquisidor>
+    <procesador>umbral
+        <param id="umbral">20</param>
+    </procesador>
+    <senial_adq>pila
+        <tamanio>20</tamanio>
+    </senial_adq>
+    <senial_pro>pila
+        <tamanio>20</tamanio>
+    </senial_pro>
+    <contexto>archivo
+        <dir_datos>/Users/voval/tmp/datos</dir_datos>
+    </contexto>
 </configuracion>

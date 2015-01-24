@@ -91,7 +91,11 @@ class AdquisidorArchivo(BaseAdquisidor):
     """
     Adquisidor de datos desde Archivo
     """
-    def __init__(self, ubicacion, senial):
+    @property
+    def ubicacion(self):
+        return self._ubicacion
+
+    def __init__(self, senial, ubicacion):
         """
         Inicializa la instancia con la ubicacion del archivo a leer
         :param ubicacion:
@@ -106,9 +110,7 @@ class AdquisidorArchivo(BaseAdquisidor):
             raise Exception('El dato no es de una ubicacion valida, (No es un nombre de archivo')
         return
 
-    @property
-    def ubicacion(self):
-        return self._ubicacion
+
 
     def _leer_dato_entrada(self):
         pass

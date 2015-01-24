@@ -65,7 +65,7 @@ class ProcesadorConUmbral(BaseProcesador):
     """
     Clase Procesador con Umbral
     """
-    def __init__(self, umbral, senial):
+    def __init__(self, senial, umbral):
         """
         Sobreescribe el constructor de la clase abstracta para inicializar el umbral
         :param umbral:

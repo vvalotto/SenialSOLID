@@ -1,11 +1,7 @@
 #!/usr/local/bin/python3.4
 __author__ = 'Victor Valotto'
-__version__ = '9.0.0'
+__version__ = '9.1.0'
 
-"""
-Ejemplo de solucion para el SRP, donde las responsabilidades se dividen
-entre diferentes clases.
-"""
 import adquisidor
 import procesador
 import visualizador
@@ -102,7 +98,7 @@ class Lanzador():
             print(ex)
             print("El programa termino con errores")
         finally:
-            print("Fin Programa - NoISP")
+            print("Fin Programa - DIP")
 
 
 if __name__ == "__main__":
