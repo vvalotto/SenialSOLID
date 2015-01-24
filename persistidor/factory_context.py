@@ -1,7 +1,7 @@
 from persistidor.contexto import *
 
 
-class FactoryContextoDatos(object):
+class FactoryContexto(object):
     """
     Responsable de crear la clase de contexto de datos
     """

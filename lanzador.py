@@ -33,13 +33,16 @@ class Lanzador():
     @staticmethod
     def informar_versiones():
         os.system("clear")
-        print("Versiones de los componenetes")
+        titulo = "Versiones de los componentes"
+        print(titulo)
+        print('*' * len(titulo))
         print("adquisidor: " + adquisidor.__version__)
         print("procesador: " + procesador.__version__)
         print("visualizador: " + visualizador.__version__)
         print("persistidor: " + persistidor.__version__)
         print("modelo: " + modelo.__version__)
         print("utiles: " + utilidades.__version__)
+        print()
 
     @staticmethod
     def ejecutar():
