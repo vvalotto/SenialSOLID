@@ -27,9 +27,6 @@ class BaseRepositorio(metaclass=ABCMeta):
         """
         pass
 
-    def obtener_lista_entidad(self, entidad):
-        pass
-
 class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
     """
     Definicion del Repositorio de la Entidad Senial

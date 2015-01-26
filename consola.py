@@ -5,9 +5,11 @@ import os
 import collections
 import adquisidor
 import procesador
+from modelo.senial import Senial
 import modelo
 import persistidor
 import utilidades
+from datetime import datetime
 from configurador import Configurador
 
 
@@ -105,7 +107,7 @@ class PantallaInfoComponentes(PantallaInfo):
 class PantallaAccion(Pantalla):
 
     def mostrar(self):
-        self.mostrar_titulo()
+        super().mostrar_titulo()
 
 
 class PantallaAccionFin(PantallaAccion):
@@ -163,6 +165,7 @@ class PantallaAccionProcesamiento(PantallaAccion):
 class PantallaAccionVisualizacion(PantallaAccion):
 
     def mostrar(self):
+        super().mostrar()
         print("Incio - Paso 3 - Mostrar Senial")
         id_senial_adq = input("Ingresar el identificador de la señial adquirida:")
         id_senial_pro = input("Ingresar el identificador de la señial procesada:")
@@ -173,6 +176,7 @@ class PantallaAccionVisualizacion(PantallaAccion):
         print("{0:20s}{1:s}".format("Adquirida", "Procesada"))
         for i in range(0, adquirida.cantidad):
             print("{0:f}{1:20f}".format(adquirida.obtener_valor(i), procesada.obtener_valor(i)))
+        self.tecla()
 
 
 if __name__ == "__main__":
@@ -202,4 +206,5 @@ if __name__ == "__main__":
 
     p_menu_principal = PantallaMenu("Principal", op_menu_principal)
 
+    print(os.getcwd())
     p_menu_principal.mostrar()
