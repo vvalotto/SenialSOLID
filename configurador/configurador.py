@@ -5,7 +5,6 @@ from xml.dom import minidom
 from modelo.factory_senial import *
 from procesador.factory_procesador import *
 from adquisidor.factory_adquisidor import *
-from visualizador.visualizador import *
 from persistidor.repositorio import *
 from persistidor.factory_context import *
 
@@ -108,10 +107,6 @@ def definir_adquisidor():
         raise ex
 
 
-def definir_visualizador():
-    return Visualizador()
-
-
 def definir_contexto(recurso):
     """
     Recupera desde la configuración el tipo de adquisidor y los
@@ -139,7 +134,7 @@ class Configurador(object):
     El Configurador es un contenedor de objetos que participan de la solucion
     """
     titulo = "Configuración de los objetos que participan"
-    print(os.getcwd())
+    print("Directorio de traabjo:", os.getcwd())
     print(titulo)
     print('*' * len(titulo))
 
@@ -156,7 +151,6 @@ class Configurador(object):
     procesador = definir_procesador()  # Se configura el tipo de procesador
     print("Tipo procesador: ", procesador.__class__)
     print("Senial para adquirir: ", procesador._senial_procesada.__class__)
-    visualizador = definir_visualizador()  # Se configura el visualizador
 
     print()
 

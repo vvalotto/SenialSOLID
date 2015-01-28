@@ -5,12 +5,14 @@ import os
 import collections
 import adquisidor
 import procesador
-from modelo.senial import Senial
 import modelo
 import persistidor
 import utilidades
+import configurador
+
 from datetime import datetime
-from configurador import Configurador
+from modelo.senial import Senial
+from configurador.configurador import Configurador
 
 
 class Pantalla(metaclass=ABCMeta):
@@ -89,6 +91,7 @@ class PantallaInfoVersiones(PantallaInfo):
         print("adquisidor: " + adquisidor.__version__)
         print("procesador: " + procesador.__version__)
         print("persistidor: " + persistidor.__version__)
+        print("configurador: " + configurador.__version__)
         print("modelo: " + modelo.__version__)
         print("utiles: " + utilidades.__version__)
         print()
@@ -179,32 +182,34 @@ class PantallaAccionVisualizacion(PantallaAccion):
         self.tecla()
 
 
-if __name__ == "__main__":
+class AplicacionSOLID(object):
 
-    p_adquisicion = PantallaAccionAdquisicion("Adquisicion de la Señal")
-    p_procesamiento = PantallaAccionProcesamiento("Procesamiento de la Señal")
-    p_visualizacion = PantallaAccionVisualizacion("Visualizacion de la Señal")
+    @classmethod
+    def iniciar(cls):
+        p_adquisicion = PantallaAccionAdquisicion("Adquisicion de la Señal")
+        p_procesamiento = PantallaAccionProcesamiento("Procesamiento de la Señal")
+        p_visualizacion = PantallaAccionVisualizacion("Visualizacion de la Señal")
 
-    op_menu_aplicacion = collections.OrderedDict()
-    op_menu_aplicacion["Adquidir Señal"] = p_adquisicion
-    op_menu_aplicacion["Procesar Señal"] = p_procesamiento
-    op_menu_aplicacion["Visualizar Señal"] = p_visualizacion
-    op_menu_aplicacion["Volver"] = None
+        op_menu_aplicacion = collections.OrderedDict()
+        op_menu_aplicacion["Adquidir Señal"] = p_adquisicion
+        op_menu_aplicacion["Procesar Señal"] = p_procesamiento
+        op_menu_aplicacion["Visualizar Señal"] = p_visualizacion
+        op_menu_aplicacion["Volver"] = None
 
-    p_configuracion = PantallaInfoComponentes("Configuracion de elementos")
-    p_versiones = PantallaInfoVersiones("Versiones de los componentes")
-    p_acerca_de = PantallaInfo("Acerca")
-    p_menu_aplicacion = PantallaMenu("Aplicacion", op_menu_aplicacion)
-    p_salir = PantallaAccionFin("Salir")
+        p_configuracion = PantallaInfoComponentes("Configuracion de elementos")
+        p_versiones = PantallaInfoVersiones("Versiones de los componentes")
+        p_acerca_de = PantallaInfo("Acerca")
+        p_menu_aplicacion = PantallaMenu("Aplicacion", op_menu_aplicacion)
+        p_salir = PantallaAccionFin("Salir")
 
-    op_menu_principal = collections.OrderedDict()
-    op_menu_principal["Configuracion"] = p_configuracion
-    op_menu_principal["Versiones"] = p_versiones
-    op_menu_principal["Aplicacion"] = p_menu_aplicacion
-    op_menu_principal["Acerca de"] = p_acerca_de
-    op_menu_principal["Salir"] = p_salir
+        op_menu_principal = collections.OrderedDict()
+        op_menu_principal["Configuracion"] = p_configuracion
+        op_menu_principal["Versiones"] = p_versiones
+        op_menu_principal["Aplicacion"] = p_menu_aplicacion
+        op_menu_principal["Acerca de"] = p_acerca_de
+        op_menu_principal["Salir"] = p_salir
 
-    p_menu_principal = PantallaMenu("Principal", op_menu_principal)
+        p_menu_principal = PantallaMenu("Principal", op_menu_principal)
 
-    print(os.getcwd())
-    p_menu_principal.mostrar()
+        print(os.getcwd())
+        p_menu_principal.mostrar()
