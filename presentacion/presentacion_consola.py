@@ -31,7 +31,6 @@ class Pantalla(metaclass=ABCMeta):
         print('-' * len(self._titulo))
         print()
 
-
     def tecla(self):
         """
         Funcion que solicita un tecla para continuar
@@ -186,22 +185,39 @@ class AplicacionSOLID(object):
 
     @classmethod
     def iniciar(cls):
+        """
+        Inicializa las pantallas y menus de la aplicacion
+        :return:
+        """
+
+        """
+        Pantallas centrales de la aplicacion
+        """
         p_adquisicion = PantallaAccionAdquisicion("Adquisicion de la Señal")
         p_procesamiento = PantallaAccionProcesamiento("Procesamiento de la Señal")
         p_visualizacion = PantallaAccionVisualizacion("Visualizacion de la Señal")
 
+        """
+        Configura el menu de Aplicacion
+        """
         op_menu_aplicacion = collections.OrderedDict()
         op_menu_aplicacion["Adquidir Señal"] = p_adquisicion
         op_menu_aplicacion["Procesar Señal"] = p_procesamiento
         op_menu_aplicacion["Visualizar Señal"] = p_visualizacion
         op_menu_aplicacion["Volver"] = None
 
+        """
+        Pantallas Iniciales de la Aplicacion
+        """
         p_configuracion = PantallaInfoComponentes("Configuracion de elementos")
         p_versiones = PantallaInfoVersiones("Versiones de los componentes")
         p_acerca_de = PantallaInfo("Acerca")
         p_menu_aplicacion = PantallaMenu("Aplicacion", op_menu_aplicacion)
         p_salir = PantallaAccionFin("Salir")
 
+        """
+        Configuración del menu principal
+        """
         op_menu_principal = collections.OrderedDict()
         op_menu_principal["Configuracion"] = p_configuracion
         op_menu_principal["Versiones"] = p_versiones
@@ -211,5 +227,7 @@ class AplicacionSOLID(object):
 
         p_menu_principal = PantallaMenu("Principal", op_menu_principal)
 
-        print(os.getcwd())
+        """
+        Iniciar Aplicacion llamando al menu principal
+        """
         p_menu_principal.mostrar()
