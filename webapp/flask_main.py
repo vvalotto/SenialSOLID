@@ -1,17 +1,16 @@
-from flask import Flask, make_response
-from flask.ext.script import Manager
+from flask import Flask, render_template
+from flask.ext.bootstrap import Bootstrap
 
 app = Flask(__name__)
-manager = Manager(app)
-@app.route('/')
+bootstrap = Bootstrap(app)
+
+@app.route('/index')
 def index():
-    response = make_response('<h1>This document carries a cookie!</h1>')
-    response.set_cookie('answer', '42')
-    return response
+    return render_template('index.html')
 
 @app.route('/usuario/<nombre>')
 def usuario(nombre):
-    return '<h1>Hola, %s!!</h1>' %nombre
+    return render_template('user.html', nombre=nombre)
 
 if __name__ == '__main__':
-    manager.run()
+    app.run()
