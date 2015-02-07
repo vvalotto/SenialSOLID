@@ -1,0 +1,5 @@
+Aplicacion Demo para la explicación de los principios SOLID
+del Desarrollo de Software.
+
+Autor: VOV
+Año: 2015

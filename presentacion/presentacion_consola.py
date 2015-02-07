@@ -83,6 +83,17 @@ class PantallaInfo(Pantalla):
         self.mostrar_titulo()
 
 
+class PantallaInfoAcercaDe(PantallaInfo):
+
+    def mostrar(self):
+        self.mostrar_titulo()
+        try:
+            with open('./presentacion/acerca.txt', 'r') as acerca:
+                print(acerca.read())
+        except IOError as eIO:
+            print("Error al leer el archivo: ", eIO)
+
+
 class PantallaInfoVersiones(PantallaInfo):
 
     def mostrar(self):
@@ -102,6 +113,12 @@ class PantallaInfoComponentes(PantallaInfo):
         super().mostrar()
         print("Tipo adquisidor: ", Configurador.adquisidor.__class__)
         print("Tipo procesador: ", Configurador.procesador.__class__)
+        print("Tipo contexto de datos para adquisidor: ", Configurador.ctx_datos_adquisicion.__class__)
+        print("Tipo contexto de datos para procesador: ", Configurador.ctx_datos_procesamiento.__class__)
+        print("Tipo repositorio de datos para señal adquirida", Configurador.rep_adquisicion.__class__)
+        print("Tipo repositorio de datos para señal procesada", Configurador.rep_procesamiento.__class__)
+        print("Tipo señal Adquirida: ", Configurador.adquisidor._senial.__class__)
+        print("Tipo señal Procesada: ", Configurador.procesador._senial_procesada.__class__)
         print()
         self.tecla()
 
@@ -119,24 +136,20 @@ class PantallaAccionFin(PantallaAccion):
         print("Fin del programa")
         exit()
 
+from presentacion.controlador_adquisicion import ControladorAdquisicion
+
 
 class PantallaAccionAdquisicion(PantallaAccion):
 
     def mostrar(self):
         super().mostrar()
         '''Paso 1 - Se obtiene la señal'''
-        a = Configurador.adquisidor
-        rep_adq = Configurador.rep_adquisicion
-        a.leer_senial()
-        sa = a.obtener_senial_adquirida()
-        sa.fecha_adquisicion = datetime.datetime.now().date()
-        sa.comentario = input('Descripcion de la señal:')
-        sa.id = int(input('Identificacion (nro entero):'))
-        print('Fecha de lectura: {0}'.format(sa.fecha_adquisicion))
-        print('Cantidad de valores obtenidos {0}'.format(sa.cantidad))
-        self.tecla()
+        ctrl_adq = ControladorAdquisicion()
+        senial = ctrl_adq.adquirir_senial()
+        print('Cantidad de valores obtenidos {0}'.format(senial.cantidad))
+        ctrl_adq.identificar_senial(senial, "Idenfificar Señal Adquirida")
         print('Se persiste la señal adquirida')
-        rep_adq.guardar(sa)
+        ctrl_adq.guardar_senial(senial)
         print('Señal Guardada')
         self.tecla()
 
@@ -148,8 +161,11 @@ class PantallaAccionProcesamiento(PantallaAccion):
         '''Paso 2 - Se procesa la señal adquirida'''
         print("Incio - Paso 2 - Procesamiento")
         print()
-        id_senial = input("Ingresar el identificador de la señial:")
         rep_adq = Configurador.rep_adquisicion
+        print("Señales adquiridas" + '\n')
+        for s in rep_adq.listar():
+            print(s)
+        id_senial = input("Ingresar el identificador de la señial:")
         rep_pro = Configurador.rep_procesamiento
         p = Configurador.procesador
         senial_a_procesar = rep_adq.obtener(Senial(), id_senial)
@@ -187,7 +203,6 @@ class AplicacionSOLID(object):
     def iniciar(cls):
         """
         Inicializa las pantallas y menus de la aplicacion
-        :return:
         """
 
         """
@@ -211,7 +226,7 @@ class AplicacionSOLID(object):
         """
         p_configuracion = PantallaInfoComponentes("Configuracion de elementos")
         p_versiones = PantallaInfoVersiones("Versiones de los componentes")
-        p_acerca_de = PantallaInfo("Acerca")
+        p_acerca_de = PantallaInfoAcercaDe("Acerca")
         p_menu_aplicacion = PantallaMenu("Aplicacion", op_menu_aplicacion)
         p_salir = PantallaAccionFin("Salir")
 

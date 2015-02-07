@@ -27,6 +27,10 @@ class BaseRepositorio(metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def listar(self):
+        pass
+
 class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
     """
     Definicion del Repositorio de la Entidad Senial
@@ -110,6 +114,8 @@ class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
         except IOError as eIO:
             raise eIO
 
+    def listar(self):
+        return self._contexto.listar()
 
 class RepositorioUsuario(BaseRepositorio):
 
