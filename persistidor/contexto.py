@@ -195,4 +195,4 @@ class ContextoArchivo(BaseContexto):
             raise ValueError
 
     def listar(self):
-        return [f[len(self._recurso) + 1:] for f in glob.glob(self._recurso + '/*.dat')]
+        return [f[len(self._recurso) + 1:len(f) - 4] for f in glob.glob(self._recurso + '/*.dat')]

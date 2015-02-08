@@ -137,7 +137,7 @@ class PantallaAccionFin(PantallaAccion):
         exit()
 
 from presentacion.controlador_adquisicion import ControladorAdquisicion
-
+from presentacion.controlador_procesamiento import ControladorProcesamiento
 
 class PantallaAccionAdquisicion(PantallaAccion):
 
@@ -158,26 +158,35 @@ class PantallaAccionProcesamiento(PantallaAccion):
 
     def mostrar(self):
         super().mostrar()
+        ctrl_adq = ControladorAdquisicion()
+        ctrl_pro = ControladorProcesamiento()
         '''Paso 2 - Se procesa la señal adquirida'''
         print("Incio - Paso 2 - Procesamiento")
         print()
-        rep_adq = Configurador.rep_adquisicion
-        print("Señales adquiridas" + '\n')
-        for s in rep_adq.listar():
-            print(s)
-        id_senial = input("Ingresar el identificador de la señial:")
-        rep_pro = Configurador.rep_procesamiento
-        p = Configurador.procesador
-        senial_a_procesar = rep_adq.obtener(Senial(), id_senial)
-        p.procesar(senial_a_procesar)
-        sp = p.obtener_senial_procesada()
+        id_senial = self.seleccionar_senial()
+        senial_a_procesar = ctrl_adq.obtener_senial(id_senial)
         self.tecla()
+        print('Se procesa la señal')
+        sp = ctrl_pro.procesar_senial(senial_a_procesar)
+        self.tecla()
+        ctrl_pro.identificar_senial(sp, "Identificar señal procesada")
         print('Se persiste la señal procesada')
-        sp.comentario = input('Descripcion de la señal procesada:')
-        sp.id = int(input('Identificacion (nro entero)'))
-        rep_pro.guardar(sp)
+        ctrl_pro.guardar_senial(sp)
         print('Señal Guardada')
         self.tecla()
+
+    def seleccionar_senial(self):
+        print('Lista de seniales adquiridas')
+        idx = 1
+        ctrl_adq = ControladorAdquisicion()
+        lista_seniales = ctrl_adq.listar_seniales_adquiridas()
+        while True:
+            for id_senial in lista_seniales:
+                print('{0} > {1}'.format(idx, id_senial))
+                idx += 1
+            op_senial = int(input('Elija una senial (nro):'))
+            if op_senial <= len(lista_seniales):
+                return lista_seniales[op_senial - 1]
 
 
 class PantallaAccionVisualizacion(PantallaAccion):

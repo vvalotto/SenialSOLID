@@ -1,5 +1,5 @@
 from configurador.configurador import *
-
+from modelo.senial import *
 
 class ControladorAdquisicion(object):
 
@@ -8,7 +8,7 @@ class ControladorAdquisicion(object):
 
     def adquirir_senial(self):
         """
-        Adquier la senial
+        Adquirir la senial
         """
         try:
             a = Configurador.adquisidor
@@ -21,7 +21,7 @@ class ControladorAdquisicion(object):
 
         opcion = 'N'
         while opcion != 'S':
-            print('      > ' + titulo)
+            print('> ' + titulo)
             while True:
                 try:
                     senial.id = int(input('      > Identificación de la señal (numero): '))
@@ -30,6 +30,13 @@ class ControladorAdquisicion(object):
                     print("Error, debe ser un numero entero.")
             senial.comentario = input('      > Descripción: ')
             opcion = input('Acepta Ingreso (S/N): ')
+
+    def obtener_senial(self, id_senial):
+        try:
+            rep = Configurador.rep_adquisicion
+            return rep.obtener(Senial(), id_senial)
+        except Exception as ex:
+            raise ex
 
     def guardar_senial(self, senial):
         try:
