@@ -10,7 +10,6 @@ import persistidor
 import utilidades
 import configurador
 
-from datetime import datetime
 from modelo.senial import Senial
 from configurador.configurador import Configurador
 
@@ -31,7 +30,8 @@ class Pantalla(metaclass=ABCMeta):
         print('-' * len(self._titulo))
         print()
 
-    def tecla(self):
+    @staticmethod
+    def tecla():
         """
         Funcion que solicita un tecla para continuar
         """
@@ -49,12 +49,12 @@ class PantallaMenu(Pantalla):
         pass
 
     def mostrar_opciones(self):
-        items_op = []
-        for op in self._opciones:
-            items_op.append(op)
+        items_opciones = []
+        for opcion in self._opciones:
+            items_opciones.append(opcion)
 
-        for i in range(0, len(items_op)):
-            print("{0} > {1}".format(i + 1, items_op[i]))
+        for i in range(0, len(items_opciones)):
+            print("{0} > {1}".format(i + 1, items_opciones[i]))
 
     def mostrar(self):
         """
@@ -63,18 +63,21 @@ class PantallaMenu(Pantalla):
         while True:
             self.mostrar_titulo()
             self.mostrar_opciones()
+
             items_opciones = []
             for opcion in self._opciones:
                 items_opciones.append(opcion)
+
             lista_id_opciones = []
             for i in range(0, len(items_opciones)):
                 lista_id_opciones.append(str(i + 1))
-            op = input('Elija una opcion > ')
-            if op in lista_id_opciones:
-                if items_opciones[int(op) - 1] == "Volver":
+
+            opcion = input('Elija una opcion > ')
+            if opcion in lista_id_opciones:
+                if items_opciones[int(opcion) - 1] == "Volver":
                     break
                 else:
-                    self._opciones[items_opciones[int(op) - 1]].mostrar()
+                    self._opciones[items_opciones[int(opcion) - 1]].mostrar()
 
 
 class PantallaInfo(Pantalla):
@@ -88,8 +91,8 @@ class PantallaInfoAcercaDe(PantallaInfo):
     def mostrar(self):
         self.mostrar_titulo()
         try:
-            with open('./presentacion/acerca.txt', 'r') as acerca:
-                print(acerca.read())
+            with open('./presentacion/acerca.txt', 'r') as archivo_acerca:
+                print(archivo_acerca.read())
         except IOError as eIO:
             print("Error al leer el archivo: ", eIO)
 
@@ -139,19 +142,22 @@ class PantallaAccionFin(PantallaAccion):
 from presentacion.controlador_adquisicion import ControladorAdquisicion
 from presentacion.controlador_procesamiento import ControladorProcesamiento
 
+
 class PantallaAccionAdquisicion(PantallaAccion):
 
     def mostrar(self):
         super().mostrar()
-        '''Paso 1 - Se obtiene la señal'''
+        print("Incio - Paso 1 - Adquisición")
         ctrl_adq = ControladorAdquisicion()
         senial = ctrl_adq.adquirir_senial()
         print('Cantidad de valores obtenidos {0}'.format(senial.cantidad))
+
         ctrl_adq.identificar_senial(senial, "Idenfificar Señal Adquirida")
+
         print('Se persiste la señal adquirida')
         ctrl_adq.guardar_senial(senial)
         print('Señal Guardada')
-        self.tecla()
+        Pantalla.tecla()
 
 
 class PantallaAccionProcesamiento(PantallaAccion):
@@ -160,30 +166,32 @@ class PantallaAccionProcesamiento(PantallaAccion):
         super().mostrar()
         ctrl_adq = ControladorAdquisicion()
         ctrl_pro = ControladorProcesamiento()
-        '''Paso 2 - Se procesa la señal adquirida'''
         print("Incio - Paso 2 - Procesamiento")
-        print()
         id_senial = self.seleccionar_senial()
         senial_a_procesar = ctrl_adq.obtener_senial(id_senial)
-        self.tecla()
+        Pantalla.tecla()
+
         print('Se procesa la señal')
         sp = ctrl_pro.procesar_senial(senial_a_procesar)
-        self.tecla()
+        Pantalla.tecla()
+
         ctrl_pro.identificar_senial(sp, "Identificar señal procesada")
         print('Se persiste la señal procesada')
         ctrl_pro.guardar_senial(sp)
         print('Señal Guardada')
-        self.tecla()
+        Pantalla.tecla()
 
     def seleccionar_senial(self):
         print('Lista de seniales adquiridas')
         idx = 1
         ctrl_adq = ControladorAdquisicion()
         lista_seniales = ctrl_adq.listar_seniales_adquiridas()
+
         while True:
             for id_senial in lista_seniales:
                 print('{0} > {1}'.format(idx, id_senial))
                 idx += 1
+
             op_senial = int(input('Elija una senial (nro):'))
             if op_senial <= len(lista_seniales):
                 return lista_seniales[op_senial - 1]

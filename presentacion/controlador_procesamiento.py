@@ -1,6 +1,7 @@
 from configurador.configurador import *
 from modelo.senial import *
 
+
 class ControladorProcesamiento(object):
 
     def __init__(self):
@@ -46,7 +47,7 @@ class ControladorProcesamiento(object):
         except Exception as ex:
             raise ex
 
-    def listar_seniales_adquiridas(self):
+    def listar_seniales_procesadas(self):
         try:
             rep = Configurador.rep_procesamiento
             return rep.listar()

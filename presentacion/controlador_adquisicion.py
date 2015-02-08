@@ -1,6 +1,7 @@
 from configurador.configurador import *
 from modelo.senial import *
 
+
 class ControladorAdquisicion(object):
 
     def __init__(self):
