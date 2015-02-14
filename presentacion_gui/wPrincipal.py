@@ -1,27 +1,37 @@
 import wx
 
 
-class MainWindow(wx.Frame):
+class MyApp(wx.App):
+    def OnInit(self):
+        frame = MyFrame("Hello World", (50, 60), (450, 340))
+        frame.Show()
+        self.SetTopWindow(frame)
+        return True
 
-    def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(200,100))
-        self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
-        self.CreateStatusBar() # A Statusbar in the bottom of the window
 
-        # Setting up the menu.
-        filemenu= wx.Menu()
+class MyFrame(wx.Frame):
 
-        # wx.ID_ABOUT and wx.ID_EXIT are standard IDs provided by wxWidgets.
-        filemenu.Append(wx.ID_ABOUT, "&About"," Information about this program")
-        filemenu.AppendSeparator()
-        filemenu.Append(wx.ID_EXIT,"E&xit"," Terminate the program")
-
-        # Creating the menubar.
+    def __init__(self, title, pos, size):
+        wx.Frame.__init__(self, None, -1, title, pos, size)
+        menuFile = wx.Menu()
+        menuFile.Append(1, "&About...")
+        menuFile.AppendSeparator()
+        menuFile.Append(2, "E&xit")
         menuBar = wx.MenuBar()
-        menuBar.Append(filemenu,"&File") # Adding the "filemenu" to the MenuBar
-        self.SetMenuBar(menuBar)  # Adding the MenuBar to the Frame content.
-        self.Show(True)
+        menuBar.Append(menuFile, "&File")
+        self.SetMenuBar(menuBar)
+        self.CreateStatusBar()
+        self.SetStatusText("Welcome to wxPython!")
+        self.Bind(wx.EVT_MENU, self.OnAbout, id=1)
+        self.Bind(wx.EVT_MENU, self.OnQuit, id=2)
 
-app = wx.App(False)
-frame = MainWindow(None, "Sample editor")
-app.MainLoop()
+    def OnQuit(self, event):
+        self.Close()
+
+    def OnAbout(self, event):
+        wx.MessageBox("This is a wxPython Hello world sample",
+                      "About Hello World", wx.OK | wx.ICON_INFORMATION, self)
+
+if __name__ == '__main__':
+    app = MyApp(False)
+    app.MainLoop()
