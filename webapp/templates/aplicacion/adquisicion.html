@@ -1,0 +1,40 @@
+{% extends "general/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Señal - SOLID{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                 <h3><p class="text-center">Adquisicion de la Señal</p></h3>
+            </div>
+            <div class="panel-body">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                 <h3><p class="text-center">Valores Adquiridos</p></h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <div class="panel-default" align="center">
+                    <table class="table">
+                    {% for valor in senial %}
+                    <tr>
+                        <td>{{ senial.index(valor) + 1}}</td>
+                        <td align="right">{{ '{0:0.2f}'.format(valor) }} </td>
+                    </tr>
+                    {% endfor %}
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
