@@ -20,19 +20,18 @@
             <div class="panel-heading">
                  <h3><p class="text-center">Valores Adquiridos</p></h3>
             </div>
-            <div class="panel-body">
-                <div class="col-md-4">
-                    <div class="panel-default" align="center">
-                    <table class="table">
-                    {% for valor in senial %}
-                    <tr>
-                        <td>{{ senial.index(valor) + 1}}</td>
-                        <td align="right">{{ '{0:0.2f}'.format(valor) }} </td>
-                    </tr>
-                    {% endfor %}
-                    </table>
-                    </div>
-                </div>
+            <table class="table table-bordered">
+                <tr align="center">
+                    <th>Nro Muestra</th>
+                    <th>Valor</th>
+                </tr>
+                {% for valor in senial %}
+                <tr>
+                    <td>{{ senial.index(valor) + 1}}</td>
+                    <td align="center">{{ '{0:0.2f}'.format(valor) }} </td>
+                </tr>
+                {% endfor %}
+            </table>
             </div>
         </div>
     </div>
