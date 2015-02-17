@@ -52,7 +52,7 @@ def adquisicion():
             flash("Error: " + str(ex))
         return redirect(url_for('adquisicion'))
     return render_template('aplicacion/adquisicion.html', form=form,
-                           senial=[])
+                           seniales=AccionSenial.listar_seniales_adquiridas())
 
 @app.route("/procesamiento/")
 def procesamiento():

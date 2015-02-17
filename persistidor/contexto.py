@@ -4,6 +4,7 @@ en algun tipo de almacen de persistencia (archivo plano, xml, serializa, base de
 """
 import os
 import pickle
+import glob
 import datetime
 from persistidor.mapeador import *
 from utilidades.trazador import *
@@ -43,6 +44,11 @@ class BaseContexto(BaseTrazador, BaseAuditor, metaclass=ABCMeta):
         Se identifica a la instancia de la entidad con nombre_entidad y en entidad es devuelta por el metodo
         """
         pass
+
+    @abstractmethod
+    def listar(self):
+        pass
+
 
     def auditar(self, contexto, auditoria):
         nombre = 'auditor_contexto.log'
@@ -122,6 +128,9 @@ class ContextoPickle(BaseContexto):
             print(eVE)
         return e
 
+    def listar(self):
+        return [f[len(self._recurso) + 1:] for f in glob.glob(self._recurso + '/*.pickle')]
+
 
 class ContextoArchivo(BaseContexto):
     """
@@ -184,3 +193,6 @@ class ContextoArchivo(BaseContexto):
             raise eIO
         except ValueError:
             raise ValueError
+
+    def listar(self):
+        return [f[len(self._recurso) + 1:len(f) - 4] for f in glob.glob(self._recurso + '/*.dat')]

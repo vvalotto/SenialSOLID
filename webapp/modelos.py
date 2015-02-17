@@ -49,3 +49,8 @@ class AccionSenial(object):
         sa.comentario = form.descripcion.data
         sa.fecha_adquisicion = form.fecha.data
         ra.guardar(sa)
+
+    @staticmethod
+    def listar_seniales_adquiridas():
+        ra = Configurador.rep_adquisicion
+        return ra.listar()
