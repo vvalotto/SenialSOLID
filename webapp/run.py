@@ -1,3 +1,3 @@
-from webapp.webapp_solid import *
+from webapp.views import *
 
 app.run(debug=True)
