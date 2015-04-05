@@ -5,10 +5,9 @@ __version__ = '9.1.0'
 import adquisidor
 import procesador
 import visualizador
-import modelo
 import persistidor
 import utilidades
-
+from modelo.senial import *
 from datetime import datetime
 from configurador import *
 

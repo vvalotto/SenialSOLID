@@ -1,6 +1,8 @@
 from abc import ABCMeta, abstractmethod
 from utilidades.auditor import *
 from utilidades.trazador import *
+from modelo.senial import *
+from modelo.usuario import *
 import datetime
 
 
@@ -18,7 +20,7 @@ class BaseRepositorio(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def obtener(self, entidad, id_entidad):
+    def obtener(self, id_entidad):
         """
         Rescata la entidad indica por id_entidad
         :param entidad: Tipo de entidad que debe rescatar
@@ -56,23 +58,24 @@ class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
             raise ex
         return
 
-    def obtener(self, senial, id_senial):
+    def obtener(self,  id_senial):
         """
         Implementa la recuperacion de la entidad (senial)
         :param senial:
         :param id_senial:
         :return:
         """
+        tipo_entidad = Senial()
         try:
-            self.auditar(senial,  "Antes de recuperar la senial")
-            senial_recuperada = self._contexto.recuperar(senial, id_senial)
-            self.auditar(senial,  "Se realizó la recuperacion")
+            self.auditar(tipo_entidad,  "Antes de recuperar la senial")
+            senial_recuperada = self._contexto.recuperar(tipo_entidad, id_senial)
+            self.auditar(tipo_entidad,  "Se realizó la recuperacion")
             return senial_recuperada
         except Exception:
-            self.auditar(senial,  "Error al recuperar")
+            self.auditar(tipo_entidad,  "Error al recuperar")
             msj = 'Error al leer una senial persistada: '
             msj += ' - ID: ' + str(id_senial)
-            self.trazar(senial, "obtener", msj)
+            self.trazar(tipo_entidad, "obtener", msj)
             raise Exception
 
     def auditar(self, senial, auditoria):
@@ -124,8 +127,28 @@ class RepositorioUsuario(BaseRepositorio):
             raise Exception
         return
 
-    def obtener(self, usuario, id_usuario):
+    def obtener(self, id_usuario):
+        tipo_entidad = Usuario()
         try:
-            return self._contexto.recuperar(usuario, id_usuario)
+            return self._contexto.recuperar(tipo_entidad, id_usuario)
+        except Exception:
+            raise Exception
+
+class RepositorioPaciente(BaseRepositorio):
+
+    def __init__(self, ctx):
+        super()._init__(ctx)
+
+    def guardar(self, paciente):
+        try:
+            self._contexto.persistir(paciente, paciente.id)
+        except Exception:
+            raise Exception
+        return
+
+    def obtener(self, id_paciente):
+        tipo_entidad = Paciente()
+        try:
+            return self._contexto.recuperar(tipo_entidad, id_paciente)
         except Exception:
             raise Exception
