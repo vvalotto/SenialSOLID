@@ -7,7 +7,7 @@ class FactorySenial(object):
         pass
 
     @staticmethod
-    def obtener_senial(tipo_senial, tamanio):
+    def obtener_senial(tipo_senial, tamanio=1024):
 
         tamanio = int(tamanio)
         senial = None

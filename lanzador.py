@@ -7,9 +7,9 @@ import procesador
 import visualizador
 import persistidor
 import utilidades
-from modelo.senial import *
+import modelo
 from datetime import datetime
-from configurador import *
+from configurador.configurador import *
 
 
 class Lanzador():
@@ -51,12 +51,17 @@ class Lanzador():
         try:
             Lanzador.informar_versiones()
             Lanzador.tecla()
+            Configurador.inicializar()
 
-            a = Configurador.adquisidor
-            p = Configurador.procesador
-            v = Configurador.visualizador
-            rep_adq = Configurador.rep_adquisicion
-            rep_pro = Configurador.rep_procesamiento
+            a = Configurador.obtener_tipo("adquisidor")
+            p = Configurador.obtener_tipo("procesador")
+            v = Configurador.obtener_tipo("visualizador")
+            rep_adq = Configurador.obtener_tipo("repositorio_adquisicion")
+            rep_pro = Configurador.obtener_tipo("repositorio_procesamiento")
+
+            print(a)
+            print(p)
+            print(v)
 
             'Obtencion de la señal y guardado'
             print('>')
@@ -77,7 +82,7 @@ class Lanzador():
             '''Paso 2 - Se procesa la señal adquirida'''
             print('>')
             print("Incio - Paso 2 - Procesamiento")
-            para_procesar = rep_adq.obtener(Senial(), sa.id)
+            para_procesar = rep_adq.obtener(sa.id)
             p.procesar(para_procesar)
             sp = p.obtener_senial_procesada()
             Lanzador.tecla()
@@ -89,15 +94,15 @@ class Lanzador():
 
             '''Paso 3 - Se muestran las seniales '''
             print("Incio - Paso 3 - Mostrar Senial")
-            adquirida = rep_adq.obtener(Senial(), sa.id)
-            procesada = rep_pro.obtener(Senial(), sp.id)
+            adquirida = rep_adq.obtener(sa.id)
+            procesada = rep_pro.obtener(sp.id)
             v.mostrar_datos(adquirida)
             print('----->')
             v.mostrar_datos(procesada)
             print('----->')
 
         except Exception as ex:
-            print(ex)
+            print(ex.args)
             print("El programa termino con errores")
         finally:
             print("Fin Programa - DIP")

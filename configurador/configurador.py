@@ -135,6 +135,8 @@ def definir_repositorio(contexto):
 
 
 class Configurador(object):
+    componentes = {}
+
     """
     El Configurador es un contenedor de objetos que participan de la solucion
     """
@@ -142,6 +144,7 @@ class Configurador(object):
     print(titulo)
     print('*' * len(titulo))
 
+    '''
     ctx_datos_adquisicion = definir_contexto(obtener_dir_datos() + '/adq')
     ctx_datos_procesamiento = definir_contexto(obtener_dir_datos() + '/pro')
     print("Contexto para adquisicion:", ctx_datos_adquisicion.__class__)
@@ -156,8 +159,31 @@ class Configurador(object):
     print("Tipo procesador: ", procesador.__class__)
     print("Senial para adquirir: ", procesador._senial_procesada.__class__)
     visualizador = definir_visualizador()  # Se configura el visualizador
-
+    '''
     print()
 
-    def __init__(self):
+    @staticmethod
+    def inicializar():
+        Configurador.agregar("adquisidor", definir_adquisidor())
+        Configurador.agregar("procesador", definir_procesador())
+        Configurador.agregar("visualizador", definir_visualizador())
+        Configurador.agregar("contexto_datos_adquiridos", definir_contexto(obtener_dir_datos() + '/adq'))
+        Configurador.agregar("contexto_datos_procesados", definir_contexto(obtener_dir_datos() + '/pro'))
+        Configurador.agregar("repositorio_adquisicion", definir_repositorio(
+            Configurador.obtener_tipo("contexto_datos_adquiridos")
+        ))
+        Configurador.agregar("repositorio_procesamiento", definir_repositorio(
+            Configurador.obtener_tipo("contexto_datos_procesados")
+        ))
+
         pass
+
+    @staticmethod
+    def agregar(tipo, clase):
+        Configurador.componentes[tipo] = clase
+
+    @staticmethod
+    def obtener_tipo(tipo):
+        return Configurador.componentes[tipo]
+
+
