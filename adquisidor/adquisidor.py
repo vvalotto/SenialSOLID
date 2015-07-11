@@ -110,8 +110,6 @@ class AdquisidorArchivo(BaseAdquisidor):
             raise Exception('El dato no es de una ubicacion valida, (No es un nombre de archivo')
         return
 
-
-
     def _leer_dato_entrada(self):
         pass
 

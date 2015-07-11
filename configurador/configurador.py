@@ -143,23 +143,6 @@ class Configurador(object):
     titulo = "Configuración de los objetos que participan"
     print(titulo)
     print('*' * len(titulo))
-
-    '''
-    ctx_datos_adquisicion = definir_contexto(obtener_dir_datos() + '/adq')
-    ctx_datos_procesamiento = definir_contexto(obtener_dir_datos() + '/pro')
-    print("Contexto para adquisicion:", ctx_datos_adquisicion.__class__)
-
-    rep_adquisicion = definir_repositorio(ctx_datos_adquisicion)
-    rep_procesamiento = definir_repositorio(ctx_datos_procesamiento)
-
-    adquisidor = definir_adquisidor()  # Se configura el tipo de adquisidor
-    print("Tipo adquisidor: ", adquisidor.__class__)
-    print("Senial para adquirir: ", adquisidor._senial.__class__)
-    procesador = definir_procesador()  # Se configura el tipo de procesador
-    print("Tipo procesador: ", procesador.__class__)
-    print("Senial para adquirir: ", procesador._senial_procesada.__class__)
-    visualizador = definir_visualizador()  # Se configura el visualizador
-    '''
     print()
 
     @staticmethod

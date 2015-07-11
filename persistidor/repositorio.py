@@ -2,7 +2,6 @@ from abc import ABCMeta, abstractmethod
 from utilidades.auditor import *
 from utilidades.trazador import *
 from modelo.senial import *
-from modelo.usuario import *
 import datetime
 
 
@@ -24,7 +23,6 @@ class BaseRepositorio(metaclass=ABCMeta):
     def obtener(self, id_entidad):
         """
         Rescata la entidad indica por id_entidad
-        :param entidad: Tipo de entidad que debe rescatar
         :param id_entidad: identificador unico
         :return: retorna la instancia de la entidad indicada
         """
@@ -56,14 +54,13 @@ class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
             self.auditar(senial,  "Se realizó la persistencia")
         except Exception as ex:
             self.auditar(senial,  "Problema al persistir persistencia")
-            self.trazar(senial, "guardar", ex.with_traceback())
+            self.trazar(senial, "guardar", ex.args)
             raise ex
         return
 
     def obtener(self, id_senial):
         """
         Implementa la recuperacion de la entidad (senial)
-        :param senial:
         :param id_senial:
         :return:
         """
@@ -114,42 +111,3 @@ class RepositorioSenial(BaseAuditor, BaseTrazador, BaseRepositorio):
                 logger.writelines(str(mensaje) + '\n')
         except IOError as eIO:
             raise eIO
-
-
-class RepositorioUsuario(BaseRepositorio):
-
-    def __init__(self, ctx):
-        super()._init__(ctx)
-        self._entidad = Usuario()
-
-    def guardar(self, usuario):
-        try:
-            self._contexto.persistir(usuario, usuario.id)
-        except Exception:
-            raise Exception
-        return
-
-    def obtener(self, id_usuario):
-        try:
-            return self._contexto.recuperar(self._entidad, id_usuario)
-        except Exception:
-            raise Exception
-
-class RepositorioPaciente(BaseRepositorio):
-
-    def __init__(self, ctx):
-        super()._init__(ctx)
-        self._entidad = Paciente()
-
-    def guardar(self, paciente):
-        try:
-            self._contexto.persistir(paciente, paciente.id)
-        except Exception:
-            raise Exception
-        return
-
-    def obtener(self, id_paciente):
-        try:
-            return self._contexto.recuperar(self._entidad, id_paciente)
-        except Exception:
-            raise Exception
