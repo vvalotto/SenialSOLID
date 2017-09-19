@@ -106,3 +106,6 @@ crashlytics.properties
 crashlytics-build.properties
 
 # Created by .ignore support plugin (hsz.mobi)
+sonar-project.properties
+.sonar_lock
+report-task.txt
